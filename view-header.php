@@ -17,16 +17,16 @@
                             <a class="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="post.php">Cars</a>
+                            <a class="nav-link" href="cars.php">Cars</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="post-result.php">Users</a>
+                            <a class="nav-link" href="users.php">Users</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="get.php">Trips</a>
+                            <a class="nav-link" href="trips.php">Trips</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="get-result.php">Reservations</a>
+                            <a class="nav-link" href="reservations.php">Reservations</a>
                         </li>
                     </ul>
                 </div>
