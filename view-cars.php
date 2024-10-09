@@ -12,6 +12,7 @@
                 <th>Location</th>
                 <th>Availability Start</th>
                 <th>Availability End</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
                 <td><?php echo $car['location']; ?></td>
                 <td><?php echo $car['availability_start']; ?></td>
                 <td><?php echo $car['availability_end']; ?></td>
+                <td><a href="car-details.php?id=<?php echo $car['car_id']; ?>">Details</a></td>
             </tr>
         <?php
         }
