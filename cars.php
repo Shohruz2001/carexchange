@@ -4,6 +4,18 @@ require_once("model-cars.php");
 
 $pageTitle = "Cars";
 include "view-header.php";
+
+// Handling GET requests for filtering by location
+if (isset($_GET['location'])) {
+    $location = $_GET['location'];
+    $conn = get_db_connection();
+    $stmt = $conn->prepare("SELECT * FROM cars WHERE location = ?");
+    $stmt->bind_param("s", $location);
+    $stmt->execute();
+    $cars = $stmt->get_result();
+    $conn->close();
+}
+
 // Handling POST requests for filtering by year
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['year'])) {
     $year = $_POST['year'];
@@ -28,6 +40,17 @@ else {
     <input type="number" id="year" name="year" />
     <button type="submit">Filter</button>
 </form>
+
+<!-- Links for filtering by location (GET method) -->
+<p>Filter by Location:</p>
+<ul>
+    <li><a href="cars.php?location=Los Angeles">Los Angeles</a></li>
+    <li><a href="cars.php?location=New York">New York</a></li>
+    <li><a href="cars.php?location=Chicago">Chicago</a></li>
+    <li><a href="cars.php?location=Houston">Houston</a></li>
+    <li><a href="cars.php">Clear Filter</a></li>
+</ul>
+
 
 <?php
 // Display the cars in the table
