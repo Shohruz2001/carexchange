@@ -1,5 +1,6 @@
 <?php
 require_once("util-db.php");
+session_start(); // Start session to handle messages
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $make = $_POST['make'];
@@ -19,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Redirect after submission
     $_SESSION['message'] = "Car added successfully!";
-    header("Location: cars.php");
+    header("Location: cars.php"); // Ensure the path is correct and points to Cars.php
     exit();
 }
 ?>
