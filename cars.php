@@ -144,6 +144,7 @@ function getCarReservations($car_id) {
                     <input type="hidden" name="car_id" value="<?php echo $car['car_id']; ?>">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
+
             </td>
         </tr>
     <?php } ?>
