@@ -52,7 +52,7 @@ include "view-header.php";
 <table class="table">
     <thead>
         <tr>
-            <th>Trip ID</th>
+           <!-- <th>Trip ID</th> -->
             <th>Destination</th>
             <th>Departure City</th>
             <th>Departure Date</th>
@@ -62,7 +62,7 @@ include "view-header.php";
     <tbody>
     <?php while ($trip = $trips->fetch_assoc()) { ?>
         <tr>
-            <td><?php echo $trip['trip_id']; ?></td>
+            <1-- <td><?php echo $trip['trip_id']; ?></td> -->
             <td><?php echo $trip['destination']; ?></td>
             <td><?php echo $trip['departure_city']; ?></td>
             <td><?php echo $trip['departure_date']; ?></td>
