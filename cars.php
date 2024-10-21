@@ -70,11 +70,10 @@ function getCarReservations($car_id) {
 </div>
 
 <!-- Display the cars in the table -->
-<table class="table table-bordered">
+<table class="table table-bordered" style="table-layout: fixed;">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Owner ID</th>
+            <!-- Remove ID and Owner ID columns -->
             <th>Make</th>
             <th>Model</th>
             <th>Year</th>
@@ -88,8 +87,7 @@ function getCarReservations($car_id) {
     <tbody>
     <?php while ($car = $cars->fetch_assoc()) { ?>
         <tr>
-            <td><?php echo $car['car_id']; ?></td>
-            <td><?php echo $car['owner_id']; ?></td>
+            <!-- Remove ID and Owner ID data -->
             <td><?php echo $car['make']; ?></td>
             <td><?php echo $car['model']; ?></td>
             <td><?php echo $car['year']; ?></td>
@@ -101,7 +99,6 @@ function getCarReservations($car_id) {
                 <table class="table table-sm">
                     <thead>
                         <tr>
-                            <th>Reservation ID</th>
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
@@ -114,7 +111,6 @@ function getCarReservations($car_id) {
                         while ($reservation = $reservations->fetch_assoc()) {
                     ?>
                         <tr>
-                            <td><?php echo $reservation['reservation_id']; ?></td>
                             <td><?php echo $reservation['start_date']; ?></td>
                             <td><?php echo $reservation['end_date']; ?></td>
                             <td><?php echo $reservation['status']; ?></td>
@@ -122,7 +118,7 @@ function getCarReservations($car_id) {
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='4'>No reservations</td></tr>";
+                        echo "<tr><td colspan='3'>No reservations</td></tr>";
                     }
                     ?>
                     </tbody>
