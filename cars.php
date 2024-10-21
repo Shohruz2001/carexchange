@@ -29,6 +29,17 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['year'])) {
 else {
     $cars = selectCars();
 }
+
+// Function to get reservations for each car
+function getCarReservations($car_id) {
+    $conn = get_db_connection();
+    $stmt = $conn->prepare("SELECT * FROM reservations WHERE car_id = ?");
+    $stmt->bind_param("i", $car_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $conn->close();
+    return $result;
+}
 ?>
 
 <h1 class="mt-4">Filter Cars</h1>
@@ -59,7 +70,69 @@ else {
 </div>
 
 <!-- Display the cars in the table -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Owner ID</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>License Plate</th>
+            <th>Location</th>
+            <th>Availability Start</th>
+            <th>Availability End</th>
+            <th>Reservations</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php while ($car = $cars->fetch_assoc()) { ?>
+        <tr>
+            <td><?php echo $car['car_id']; ?></td>
+            <td><?php echo $car['owner_id']; ?></td>
+            <td><?php echo $car['make']; ?></td>
+            <td><?php echo $car['model']; ?></td>
+            <td><?php echo $car['year']; ?></td>
+            <td><?php echo $car['license_plate']; ?></td>
+            <td><?php echo $car['location']; ?></td>
+            <td><?php echo $car['availability_start']; ?></td>
+            <td><?php echo $car['availability_end']; ?></td>
+            <td>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Reservation ID</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $reservations = getCarReservations($car['car_id']);
+                    if ($reservations->num_rows > 0) {
+                        while ($reservation = $reservations->fetch_assoc()) {
+                    ?>
+                        <tr>
+                            <td><?php echo $reservation['reservation_id']; ?></td>
+                            <td><?php echo $reservation['start_date']; ?></td>
+                            <td><?php echo $reservation['end_date']; ?></td>
+                            <td><?php echo $reservation['status']; ?></td>
+                        </tr>
+                    <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No reservations</td></tr>";
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <?php } ?>
+    </tbody>
+</table>
+
 <?php
-include "view-cars.php";
 include "view-footer.php";
 ?>
