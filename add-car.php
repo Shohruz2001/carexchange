@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <h1>Add New Car</h1>
-    <form action="add-car.php" method="POST">
+   <form action="add-car.php" method="POST">
         <label for="make">Make:</label>
         <input type="text" name="make" id="make" required><br>
 
