@@ -13,7 +13,6 @@ $users = selectUsers();
 <table class="table">
     <thead>
         <tr>
-            <th>User ID</th>
             <th>Username</th>
             <th>Email</th>
             <th>Contact Info</th>
@@ -23,7 +22,6 @@ $users = selectUsers();
     <tbody>
     <?php while ($user = $users->fetch_assoc()) { ?>
         <tr>
-            <td><?php echo $user['user_id']; ?></td>
             <td><?php echo $user['username']; ?></td>
             <td><?php echo $user['email']; ?></td>
             <td><?php echo $user['contact_info']; ?></td>
