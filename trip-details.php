@@ -54,8 +54,8 @@ include "view-header.php";
 <table class="table">
     <thead>
         <tr>
-            <th>Reservation ID</th>
-            <th>Car ID</th>
+            <!-- <th>Reservation ID</th> -->
+            <!-- <th>Car ID</th> -->
             <th>Start Date</th>
             <th>End Date</th>
             <th>Status</th>
@@ -64,8 +64,8 @@ include "view-header.php";
     <tbody>
     <?php while ($reservation = $reservations->fetch_assoc()) { ?>
         <tr>
-            <td><?php echo $reservation['reservation_id']; ?></td>
-            <td><?php echo $reservation['car_id']; ?></td>
+            <!-- <td><?php echo $reservation['reservation_id']; ?></td> -->
+            <!-- <td><?php echo $reservation['car_id']; ?></td> -->
             <td><?php echo $reservation['start_date']; ?></td>
             <td><?php echo $reservation['end_date']; ?></td>
             <td><?php echo $reservation['status']; ?></td>
