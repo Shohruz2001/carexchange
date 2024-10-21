@@ -13,7 +13,7 @@ $trips = selectTrips();
 <table class="table">
     <thead>
         <tr>
-            <th>Trip ID</th>
+           <!-- <th>Trip ID</th> -->
             <th>User ID</th>
             <th>Destination</th>
             <th>Departure City</th>
@@ -25,7 +25,7 @@ $trips = selectTrips();
     <tbody>
     <?php while ($trip = $trips->fetch_assoc()) { ?>
         <tr>
-            <td><?php echo $trip['trip_id']; ?></td>
+            <!-- <td><?php echo $trip['trip_id']; ?></td> -->
             <td><?php echo $trip['user_id']; ?></td>
             <td><?php echo $trip['destination']; ?></td>
             <td><?php echo $trip['departure_city']; ?></td>
