@@ -26,7 +26,7 @@ $trips = selectTrips();
     <?php while ($trip = $trips->fetch_assoc()) { ?>
         <tr>
             <!-- <td><?php echo $trip['trip_id']; ?></td> -->
-            <td><?php echo $trip['user_id']; ?></td>
+            <!-- <td><?php echo $trip['user_id']; ?></td> -->
             <td><?php echo $trip['destination']; ?></td>
             <td><?php echo $trip['departure_city']; ?></td>
             <td><?php echo $trip['departure_date']; ?></td>
