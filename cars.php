@@ -44,6 +44,14 @@ function getCarReservations($car_id) {
 
 <h1 class="mt-4">Filter Cars</h1>
 
+<!-- Session Message for Add/Edit/Delete -->
+<?php if (isset($_SESSION['message'])) { ?>
+    <div class="alert alert-success">
+        <?php echo $_SESSION['message']; ?>
+    </div>
+    <?php unset($_SESSION['message']); ?>
+<?php } ?>
+
 <!-- Form for filtering by year (POST method) -->
 <div class="row mb-4">
     <div class="col-md-6">
@@ -69,6 +77,9 @@ function getCarReservations($car_id) {
     </div>
 </div>
 
+<!-- Add Car Button -->
+<a href="add-car.php" class="btn btn-success mb-3">Add New Car</a>
+
 <!-- Display the cars in the table -->
 <table class="table table-bordered" style="table-layout: fixed;">
     <thead>
@@ -82,6 +93,7 @@ function getCarReservations($car_id) {
             <th>Availability Start</th>
             <th>Availability End</th>
             <th>Reservations</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -123,6 +135,15 @@ function getCarReservations($car_id) {
                     ?>
                     </tbody>
                 </table>
+            </td>
+            <td>
+                <!-- Action buttons for Edit and Delete -->
+                <a href="edit-car.php?id=<?php echo $car['car_id']; ?>" class="btn btn-primary">Edit</a>
+                
+                <form action="delete-car.php" method="POST" style="display:inline;">
+                    <input type="hidden" name="car_id" value="<?php echo $car['car_id']; ?>">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </td>
         </tr>
     <?php } ?>
