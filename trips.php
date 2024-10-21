@@ -14,7 +14,7 @@ $trips = selectTrips();
     <thead>
         <tr>
            <!-- <th>Trip ID</th> -->
-            <th>User ID</th>
+            <!-- <th>User ID</th> -->
             <th>Destination</th>
             <th>Departure City</th>
             <th>Departure Date</th>
