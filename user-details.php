@@ -62,7 +62,7 @@ include "view-header.php";
     <tbody>
     <?php while ($trip = $trips->fetch_assoc()) { ?>
         <tr>
-            <1-- <td><?php echo $trip['trip_id']; ?></td> -->
+            <!-- <td><?php echo $trip['trip_id']; ?></td> -->
             <td><?php echo $trip['destination']; ?></td>
             <td><?php echo $trip['departure_city']; ?></td>
             <td><?php echo $trip['departure_date']; ?></td>
