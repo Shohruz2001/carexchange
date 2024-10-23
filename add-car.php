@@ -1,6 +1,6 @@
 <?php
 require_once("util-db.php");
-session_start(); // Start session to handle messages
+session_start(); // Start session to use $_SESSION['message']
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $make = $_POST['make'];
@@ -13,14 +13,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert into the database
     $conn = get_db_connection();
-    $stmt = $conn->prepare("INSERT INTO cars (make, model, year, license_plate, location, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssissss", $make, $model, $year, $license_plate, $location, $availability_start, $availability_end);
-    $stmt->execute();
-    $conn->close();
 
-    // Redirect after submission
-    $_SESSION['message'] = "Car added successfully!";
-    header("Location: cars.php"); // Ensure the path is correct and points to Cars.php
+    // Check if the connection was successful
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $stmt = $conn->prepare("INSERT INTO cars (make, model, year, license_plate, location, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    
+    if ($stmt === false) {
+        die("MySQL prepare failed: " . $conn->error);
+    }
+
+    $stmt->bind_param("ssissss", $make, $model, $year, $license_plate, $location, $availability_start, $availability_end);
+
+    // Execute the statement and check for errors
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Car added successfully!";
+        header("Location: cars.php"); // Redirect back to the cars listing
+    } else {
+        // Log error and display an error message
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close the connection
+    $stmt->close();
+    $conn->close();
     exit();
 }
 ?>
@@ -34,7 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <h1>Add New Car</h1>
-   <form action="add-car.php" method="POST">
+    
+    <!-- Make sure the action points to the correct file -->
+    <form action="add-car.php" method="POST">
         <label for="make">Make:</label>
         <input type="text" name="make" id="make" required><br>
 
