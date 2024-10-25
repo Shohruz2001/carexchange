@@ -1,3 +1,32 @@
+<?php
+require_once("util-db.php");
+session_start(); // Start session to handle messages
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $owner_id = $_POST['owner_id'];
+    $make = $_POST['make'];
+    $model = $_POST['model'];
+    $year = $_POST['year'];
+    $license_plate = $_POST['license_plate'];
+    $location = $_POST['location'];
+    $availability_start = $_POST['availability_start'];
+    $availability_end = $_POST['availability_end'];
+
+    // Insert into the database
+    $conn = get_db_connection();
+    $stmt = $conn->prepare("INSERT INTO cars (owner_id, make, model, year, license_plate, location, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ississss", $owner_id, $make, $model, $year, $license_plate, $location, $availability_start, $availability_end);
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Car added successfully!";
+        header("Location: cars.php"); // Redirect after successful addition
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,31 +57,3 @@
     </form>
 </body>
 </html>
-
-<?php
-require_once("util-db.php");
-session_start(); // Start session to handle messages
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $owner_id = $_POST['owner_id'];
-    $make = $_POST['make'];
-    $model = $_POST['model'];
-    $year = $_POST['year'];
-    $license_plate = $_POST['license_plate'];
-    $location = $_POST['location'];
-    $availability_start = $_POST['availability_start'];
-    $availability_end = $_POST['availability_end'];
-
-    // Insert into the database
-    $conn = get_db_connection();
-    $stmt = $conn->prepare("INSERT INTO cars (owner_id, make, model, year, license_plate, location, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ississss", $owner_id, $make, $model, $year, $license_plate, $location, $availability_start, $availability_end);
-    $stmt->execute();
-    $conn->close();
-
-    // Redirect after submission
-    $_SESSION['message'] = "Car added successfully!";
-    header("Location: cars.php"); // Ensure the path is correct and points to Cars.php
-    exit();
-}
-?>
