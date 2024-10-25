@@ -12,14 +12,13 @@ if (isset($_POST['car_id'])) {
     $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM reservations WHERE car_id = ?");
     $stmt->bind_param("i", $car_id);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+    $stmt->store_result(); // Needed for getting the row count after SELECT COUNT(*)
+    $stmt->bind_result($count);
+    $stmt->fetch();
 
-    if ($row['count'] > 0) {
-        // If there are reservations, set a message and redirect
+    if ($count > 0) {
+        // If there are reservations, set a message and do not delete
         $_SESSION['message'] = "Car cannot be deleted because there are related reservations. Check those fields before deleting.";
-        header("Location: cars.php");
-        exit();
     } else {
         // If no reservations, proceed to delete the car
         $stmt = $conn->prepare("DELETE FROM cars WHERE car_id = ?");
@@ -29,12 +28,13 @@ if (isset($_POST['car_id'])) {
         } else {
             $_SESSION['message'] = "Error deleting car: " . $stmt->error;
         }
-        $stmt->close();
-        $conn->close();
-        
-        // Redirect back to the cars listing page
-        header("Location: cars.php");
-        exit();
     }
+
+    $stmt->close();
+    $conn->close();
+    
+    // Redirect back to the cars listing page
+    header("Location: cars.php");
+    exit();
 }
 ?>
