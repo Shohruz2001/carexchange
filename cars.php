@@ -1,7 +1,6 @@
 <?php
 require_once("util-db.php");
 require_once("model-cars.php");
-session_start();  // Ensure session start is at the beginning
 
 $pageTitle = "Cars";
 include "view-header.php";
@@ -46,9 +45,12 @@ function getCarReservations($car_id) {
 <h1 class="mt-4">Filter Cars</h1>
 
 <!-- Session Message for Add/Edit/Delete -->
-<?php if (isset($_SESSION['message'])): ?>
-<script>alert('<?php echo $_SESSION['message']; ?>');</script>
-<?php unset($_SESSION['message']); endif; ?>
+<?php if (isset($_SESSION['message'])) { ?>
+    <div class="alert alert-success">
+        <?php echo $_SESSION['message']; ?>
+    </div>
+    <?php unset($_SESSION['message']); ?>
+<?php } ?>
 
 <!-- Form for filtering by year (POST method) -->
 <div class="row mb-4">
@@ -61,6 +63,7 @@ function getCarReservations($car_id) {
             </div>
         </form>
     </div>
+
     <!-- Links for filtering by location (GET method) -->
     <div class="col-md-6">
         <p>Filter by Location:</p>
@@ -81,6 +84,7 @@ function getCarReservations($car_id) {
 <table class="table table-bordered" style="table-layout: fixed;">
     <thead>
         <tr>
+            <!-- Remove ID and Owner ID columns -->
             <th>Make</th>
             <th>Model</th>
             <th>Year</th>
@@ -95,6 +99,7 @@ function getCarReservations($car_id) {
     <tbody>
     <?php while ($car = $cars->fetch_assoc()) { ?>
         <tr>
+            <!-- Remove ID and Owner ID data -->
             <td><?php echo $car['make']; ?></td>
             <td><?php echo $car['model']; ?></td>
             <td><?php echo $car['year']; ?></td>
@@ -137,8 +142,9 @@ function getCarReservations($car_id) {
                 
                 <form action="delete-car.php" method="POST" style="display:inline;">
                     <input type="hidden" name="car_id" value="<?php echo $car['car_id']; ?>">
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this car? This action cannot be undone.');">Delete</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
+
             </td>
         </tr>
     <?php } ?>
