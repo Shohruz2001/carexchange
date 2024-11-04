@@ -40,8 +40,9 @@ $users = selectUsers();
             <td><?php echo $user['contact_info']; ?></td>
             <td>
                 <a href="edit-user.php?id=<?php echo $user['user_id']; ?>" class="btn btn-primary">Edit</a>
-                
-                <form action="delete-user.php" method="POST" style="display:inline;">
+
+                <!-- Delete button with confirmation prompt -->
+                <form action="delete-user.php" method="POST" style="display:inline;" onsubmit="return confirmDelete()">
                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
@@ -50,5 +51,11 @@ $users = selectUsers();
     <?php } ?>
     </tbody>
 </table>
+
+<script>
+function confirmDelete() {
+    return confirm("Are you sure you want to delete this user along with all associated cars?");
+}
+</script>
 
 <?php include "view-footer.php"; ?>
