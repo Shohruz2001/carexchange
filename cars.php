@@ -140,10 +140,11 @@ function getCarReservations($car_id) {
                 <!-- Action buttons for Edit and Delete -->
                 <a href="edit-car.php?id=<?php echo $car['car_id']; ?>" class="btn btn-primary">Edit</a>
                 
-                <form action="delete-car.php" method="POST" style="display:inline;">
-                    <input type="hidden" name="car_id" value="<?php echo $car['car_id']; ?>">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                <form action="delete-car.php" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this car along with all associated reservations?');">
+                       <input type="hidden" name="car_id" value="<?php echo $car['car_id']; ?>">
+                       <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
+
 
             </td>
         </tr>
