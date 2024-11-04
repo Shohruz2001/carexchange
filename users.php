@@ -1,6 +1,7 @@
 <?php
 require_once("util-db.php");
 require_once("model-users.php");
+session_start(); // Start session to show messages
 
 $pageTitle = "Users";
 include "view-header.php";
@@ -10,13 +11,25 @@ $users = selectUsers();
 ?>
 
 <h1>Users</h1>
+
+<!-- Session Message for Add/Edit/Delete -->
+<?php if (isset($_SESSION['message'])) { ?>
+    <div class="alert alert-success">
+        <?php echo $_SESSION['message']; ?>
+    </div>
+    <?php unset($_SESSION['message']); ?>
+<?php } ?>
+
+<!-- Add User Button -->
+<a href="add-user.php" class="btn btn-success mb-3">Add New User</a>
+
 <table class="table">
     <thead>
         <tr>
             <th>Username</th>
             <th>Email</th>
             <th>Contact Info</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -25,7 +38,14 @@ $users = selectUsers();
             <td><?php echo $user['username']; ?></td>
             <td><?php echo $user['email']; ?></td>
             <td><?php echo $user['contact_info']; ?></td>
-            <td><a href="user-details.php?id=<?php echo $user['user_id']; ?>">Details</a></td>
+            <td>
+                <a href="edit-user.php?id=<?php echo $user['user_id']; ?>" class="btn btn-primary">Edit</a>
+                
+                <form action="delete-user.php" method="POST" style="display:inline;">
+                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
         </tr>
     <?php } ?>
     </tbody>
