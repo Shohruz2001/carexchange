@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $stmt->close();
     $conn->close();
-    header("Location: edit-car.php?id=" . $car_id);
+    header("Location: cars.php?id=" . $car_id);
     exit();
 }
 
