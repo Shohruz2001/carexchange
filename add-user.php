@@ -6,16 +6,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $contact_info = $_POST['contact_info'];
+    $password = $_POST['password']; // Retrieve the password
+
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Insert the new user into the database
     $conn = get_db_connection();
-    $stmt = $conn->prepare("INSERT INTO users (username, email, contact_info) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $username, $email, $contact_info);
-    $stmt->execute();
-    $conn->close();
+    $stmt = $conn->prepare("INSERT INTO users (username, email, contact_info, password) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $username, $email, $contact_info, $hashed_password);
 
-    // Set a success message and redirect
-    $_SESSION['message'] = "User added successfully!";
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "User added successfully!";
+    } else {
+        $_SESSION['message'] = "Error adding user: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
     header("Location: users.php");
     exit();
 }
@@ -39,6 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="contact_info">Contact Info:</label>
         <input type="text" name="contact_info" id="contact_info" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br>
 
         <button type="submit">Add User</button>
     </form>
