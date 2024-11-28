@@ -16,6 +16,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- Existing links -->
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
@@ -30,6 +31,20 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="reservations.php">Reservations</a>
+                        </li>
+
+                        <!-- New links for the JavaScript Libraries -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="lib1.php">Lib1: Pie Chart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="lib2.php">Lib2: Interactive Table</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="lib3.php">Lib3: Form Validation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="lib4.php">Lib4: Bar Chart</a>
                         </li>
                     </ul>
                 </div>
