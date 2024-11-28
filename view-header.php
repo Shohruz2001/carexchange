@@ -38,13 +38,13 @@
                             <a class="nav-link" href="lib1.php">Lib1: Pie Chart</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lib2.php">Lib2: Interactive Table</a>
+                            <a class="nav-link" href="lib2.php">Lib2: Stacked Bar Chart using Plotly.js</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lib3.php">Lib3: Form Validation</a>
+                            <a class="nav-link" href="lib3.php">Lib3: Line Chart Categorized by Month</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lib4.php">Lib4: Bar Chart</a>
+                            <a class="nav-link" href="lib4.php">Lib4: Donut Chart using Chart.js</a>
                         </li>
                     </ul>
                 </div>
