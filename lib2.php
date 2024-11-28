@@ -1,69 +1,60 @@
 <!-- lib2.php -->
 <?php
 require_once('util-db.php');  // Include the database connection
-$pageTitle = "Car Availability Heatmap";
+$pageTitle = "Stacked Bar Chart: Car Data by Location and Year";
 include "view-header.php";  // Include the header for the page
 
-// Fetch car availability data from the database
+// Fetch car data by location and year
 $conn = get_db_connection();
-$stmt = $conn->prepare("SELECT location, availability_start, availability_end, COUNT(*) AS car_count FROM cars GROUP BY location, availability_start, availability_end");
+$stmt = $conn->prepare("SELECT location, year, COUNT(*) AS car_count FROM cars GROUP BY location, year");
 $stmt->execute();
-$result = $stmt->get_result();
+$cars = $stmt->get_result();
 $conn->close();
 
 $locations = [];
-$availability = [];
-$car_counts = [];
+$years = [];
+$data = [];
 
-while ($row = $result->fetch_assoc()) {
+while ($row = $cars->fetch_assoc()) {
     $locations[] = $row['location'];
-    $availability[] = $row['availability_start'];
-    $car_counts[] = $row['car_count'];
+    $years[$row['year']] = true;  // Keep track of unique years
+    $data[$row['location']][$row['year']] = $row['car_count'];
 }
+
+// Prepare the years list and data
+$years = array_keys($years);  // Extract unique years
 ?>
 
-<h1>Lib2: Heatmap of Car Availability</h1>
-<p>This page uses Chart.js with the Heatmap plugin to visualize car availability over time and location.</p>
+<h1>Lib2: Stacked Bar Chart using Chart.js</h1>
+<p>This page uses Chart.js to display a stacked bar chart comparing car counts by location and year.</p>
 
-<canvas id="carHeatmap" width="400" height="400"></canvas>
+<canvas id="barChart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-heatmap"></script>
 <script>
-    var ctx = document.getElementById('carHeatmap').getContext('2d');
+    var locations = <?php echo json_encode($locations); ?>;
+    var years = <?php echo json_encode($years); ?>;
+    var data = <?php echo json_encode($data); ?>;
 
-    var data = {
-        datasets: [{
-            label: 'Car Availability by Location and Time',
-            data: <?php echo json_encode($car_counts); ?>,
-            xAxisID: 'location',
-            yAxisID: 'time',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
+    var traces = [];
+
+    years.forEach(function(year) {
+        var trace = {
+            x: locations,
+            y: locations.map(function(location) { return data[location][year] || 0; }),
+            type: 'bar',
+            name: year
+        };
+        traces.push(trace);
+    });
+
+    var layout = {
+        barmode: 'stack',
+        title: 'Car Count by Location and Year',
+        xaxis: { title: 'Location' },
+        yaxis: { title: 'Number of Cars' }
     };
 
-    var config = {
-        type: 'heatmap',
-        data: data,
-        options: {
-            responsive: true,
-            scales: {
-                x: { 
-                    type: 'category',
-                    labels: <?php echo json_encode($locations); ?>,
-                    title: { text: 'Location', display: true }
-                },
-                y: { 
-                    type: 'category',
-                    labels: <?php echo json_encode($availability); ?>,
-                    title: { text: 'Availability Date', display: true }
-                }
-            }
-        }
-    };
-
-    var carHeatmap = new Chart(ctx, config);
+    Plotly.newPlot('barChart', traces, layout);
 </script>
 
 <?php include "view-footer.php"; ?>
