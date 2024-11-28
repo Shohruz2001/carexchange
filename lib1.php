@@ -1,8 +1,8 @@
 <!-- lib1.php -->
 <?php
-require_once('util-db.php');  // Include the database connection
+require_once('util-db.php');
 $pageTitle = "Pie Chart: Car Models";
-include "view-header.php";  // Include the header for the page
+include "view-header.php";
 
 // Fetch car model counts from the database
 $conn = get_db_connection();
