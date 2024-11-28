@@ -1,85 +1,75 @@
 <!-- lib3.php -->
 <?php
-$pageTitle = "Visual Form Validation";
+require_once('util-db.php');  // Include the database connection
+$pageTitle = "Line Chart: Car Availability Over Time";
 include "view-header.php";  // Include the header for the page
+
+// Fetch car availability over time
+$conn = get_db_connection();
+$stmt = $conn->prepare("SELECT availability_start, COUNT(*) AS car_count FROM cars GROUP BY availability_start ORDER BY availability_start ASC");
+$stmt->execute();
+$result = $stmt->get_result();
+$conn->close();
+
+$dates = [];
+$car_counts = [];
+
+while ($row = $result->fetch_assoc()) {
+    $dates[] = $row['availability_start'];
+    $car_counts[] = $row['car_count'];
+}
 ?>
 
-<h1>Lib3: Visual Form Validation</h1>
-<p>This page uses JavaScript to perform visual form validation with instant feedback.</p>
+<h1>Lib3: Line Chart for Car Availability Over Time</h1>
+<p>This page uses Chart.js to display a line chart visualizing car availability over time, based on the start dates of car availability.</p>
 
-<form id="carForm" action="submit-form.php" method="POST">
-    <div class="mb-3">
-        <label for="make" class="form-label">Car Make</label>
-        <input type="text" class="form-control" id="make" name="make" required>
-        <div id="makeError" style="color: red; display: none;">Make is required!</div>
-    </div>
-
-    <div class="mb-3">
-        <label for="model" class="form-label">Car Model</label>
-        <input type="text" class="form-control" id="model" name="model" required>
-        <div id="modelError" style="color: red; display: none;">Model is required!</div>
-    </div>
-
-    <div class="mb-3">
-        <label for="year" class="form-label">Car Year</label>
-        <input type="number" class="form-control" id="year" name="year" min="1900" max="2100" required>
-        <div id="yearError" style="color: red; display: none;">Please enter a valid year!</div>
-    </div>
-
-    <div class="mb-3">
-        <label for="location" class="form-label">Car Location</label>
-        <input type="text" class="form-control" id="location" name="location" required>
-        <div id="locationError" style="color: red; display: none;">Location is required!</div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
+<canvas id="availabilityLineChart" width="400" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const form = document.getElementById('carForm');
-    const make = document.getElementById('make');
-    const model = document.getElementById('model');
-    const year = document.getElementById('year');
-    const location = document.getElementById('location');
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Reset errors
-        document.getElementById('makeError').style.display = 'none';
-        document.getElementById('modelError').style.display = 'none';
-        document.getElementById('yearError').style.display = 'none';
-        document.getElementById('locationError').style.display = 'none';
-
-        let valid = true;
-
-        // Validate make
-        if (make.value.trim() === '') {
-            document.getElementById('makeError').style.display = 'block';
-            valid = false;
-        }
-
-        // Validate model
-        if (model.value.trim() === '') {
-            document.getElementById('modelError').style.display = 'block';
-            valid = false;
-        }
-
-        // Validate year
-        if (year.value < 1900 || year.value > 2100) {
-            document.getElementById('yearError').style.display = 'block';
-            valid = false;
-        }
-
-        // Validate location
-        if (location.value.trim() === '') {
-            document.getElementById('locationError').style.display = 'block';
-            valid = false;
-        }
-
-        // Submit form if valid
-        if (valid) {
-            form.submit();
+    var ctx = document.getElementById('availabilityLineChart').getContext('2d');
+    var availabilityLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?php echo json_encode($dates); ?>,  // Dynamic availability dates from DB
+            datasets: [{
+                label: 'Car Availability Over Time',
+                data: <?php echo json_encode($car_counts); ?>,  // Car counts dynamically from DB
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Availability Start Date'
+                    },
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 10
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Number of Cars'
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return 'Available cars: ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
         }
     });
 </script>
