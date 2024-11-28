@@ -1,7 +1,7 @@
 <!-- lib2.php -->
 <?php
 require_once('util-db.php');  // Include the database connection
-$pageTitle = "Stacked Bar Chart: Car Data by Location and Year";
+$pageTitle = "Column Chart: Car Data by Location and Year";
 include "view-header.php";  // Include the header for the page
 
 // Fetch car data grouped by location and year
@@ -46,13 +46,17 @@ foreach ($years as $year) {
 }
 ?>
 
-<h1>Lib2: Stacked Bar Chart using Plotly.js</h1>
-<p>This page uses Plotly.js to display a stacked bar chart comparing car counts by location and year.</p>
+<h1>Lib2: Column Chart using Plotly.js</h1>
+<p>This page uses Plotly.js to display a column chart comparing car counts by location and year.</p>
 
 <div id="carColumnChart" style="width:100%; height: 400px;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/plotly.js"></script>
 <script>
+    console.log('Locations:', <?php echo json_encode($locations); ?>);
+    console.log('Years:', <?php echo json_encode($years); ?>);
+    console.log('Trace Data:', <?php echo json_encode($trace_data); ?>);
+
     var data = <?php echo json_encode($trace_data); ?>;  // Data from PHP passed to JavaScript
 
     // Layout configuration for the Plotly chart
