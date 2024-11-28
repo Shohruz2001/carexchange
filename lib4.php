@@ -1,8 +1,8 @@
 <!-- lib4.php -->
 <?php
-require_once('util-db.php');  // Include the database connection
+require_once('util-db.php'); 
 $pageTitle = "Donut Chart: Car Counts by Location";
-include "view-header.php";  // Include the header for the page
+include "view-header.php"; 
 
 // Fetch car counts by location
 $conn = get_db_connection();
