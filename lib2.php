@@ -1,9 +1,10 @@
 <!-- lib2.php -->
 <?php
+require_once('util-db.php');  // Include the database connection
 $pageTitle = "Interactive Table: Car Data";
-include "view-header.php";
+include "view-header.php";  // Include the header for the page
 
-// Fetch all car data
+// Fetch all car data from the database
 $conn = get_db_connection();
 $stmt = $conn->prepare("SELECT make, model, year, location, availability_start, availability_end FROM cars");
 $stmt->execute();
@@ -43,7 +44,7 @@ $conn->close();
 <script src="https://cdn.jsdelivr.net/npm/datatables.net/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#carTable').DataTable();
+        $('#carTable').DataTable();  // Activate DataTables on the table
     });
 </script>
 
