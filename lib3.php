@@ -1,63 +1,64 @@
-<!-- lib3.php -->
-<?php
-require_once('util-db.php');  // Include the database connection
-$pageTitle = "Form Validation using Formik.js";
-include "view-header.php";  // Include the header for the page
+// lib3.js (React)
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-// Fetch car makes and locations for the form options
-$conn = get_db_connection();
-$make_stmt = $conn->prepare("SELECT DISTINCT make FROM cars");
-$make_stmt->execute();
-$makes_result = $make_stmt->get_result();
+const Lib3 = () => {
+  const { register, handleSubmit, watch, errors } = useForm();
+  const [progress, setProgress] = useState(0);
 
-$location_stmt = $conn->prepare("SELECT DISTINCT location FROM cars");
-$location_stmt->execute();
-$locations_result = $location_stmt->get_result();
+  const onSubmit = (data) => {
+    alert(JSON.stringify(data, null, 2));
+  };
 
-$conn->close();
-?>
+  const watchFields = watch(["make", "model", "year", "location"]);
 
-<h1>Lib3: Form Validation using Formik.js</h1>
-<p>This page uses Formik.js to validate car form inputs.</p>
+  // Function to calculate progress
+  const calculateProgress = () => {
+    let filledFields = 0;
+    if (watchFields.make) filledFields++;
+    if (watchFields.model) filledFields++;
+    if (watchFields.year) filledFields++;
+    if (watchFields.location) filledFields++;
+    return (filledFields / 4) * 100;
+  };
 
-<form id="carForm" method="POST" action="submit-form.php">
-    <div class="mb-3">
-        <label for="make" class="form-label">Car Make</label>
-        <select class="form-control" id="make" name="make" required>
-            <?php while ($row = $makes_result->fetch_assoc()) { ?>
-                <option value="<?php echo $row['make']; ?>"><?php echo $row['make']; ?></option>
-            <?php } ?>
-        </select>
+  return (
+    <div>
+      <h1>Lib3: Visual Form Validation with React Hook Form</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label htmlFor="make">Car Make</label>
+          <input name="make" ref={register({ required: true })} />
+          {errors.make && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="model">Car Model</label>
+          <input name="model" ref={register({ required: true })} />
+          {errors.model && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="year">Car Year</label>
+          <input name="year" type="number" ref={register({ required: true })} />
+          {errors.year && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="location">Car Location</label>
+          <input name="location" ref={register({ required: true })} />
+          {errors.location && <span>This field is required</span>}
+        </div>
+
+        <div style={{ marginTop: '20px' }}>
+          <label>Progress</label>
+          <progress value={calculateProgress()} max="100" style={{ width: '100%' }}></progress>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
     </div>
-    <div class="mb-3">
-        <label for="model" class="form-label">Car Model</label>
-        <input type="text" class="form-control" id="model" name="model" required>
-    </div>
-    <div class="mb-3">
-        <label for="year" class="form-label">Car Year</label>
-        <input type="number" class="form-control" id="year" name="year" required>
-    </div>
-    <div class="mb-3">
-        <label for="location" class="form-label">Car Location</label>
-        <select class="form-control" id="location" name="location" required>
-            <?php while ($row = $locations_result->fetch_assoc()) { ?>
-                <option value="<?php echo $row['location']; ?>"><?php echo $row['location']; ?></option>
-            <?php } ?>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+  );
+};
 
-<script src="https://cdn.jsdelivr.net/npm/formik@2.2.9/dist/formik.umd.min.js"></script>
-<script>
-    const { Formik } = Formik;
-
-    Formik({
-        initialValues: { make: '', model: '', year: '', location: '' },
-        onSubmit: (values) => {
-            alert("Form Submitted: " + JSON.stringify(values, null, 2));
-        }
-    }).mount('#carForm');
-</script>
-
-<?php include "view-footer.php"; ?>
+export default Lib3;
