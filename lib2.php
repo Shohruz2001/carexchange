@@ -1,10 +1,10 @@
 <!-- lib2.php -->
 <?php
 require_once('util-db.php');  // Include the database connection
-$pageTitle = "Column Chart: Car Data by Location and Year";
+$pageTitle = "Stacked Bar Chart: Car Data by Location and Year";
 include "view-header.php";  // Include the header for the page
 
-// Fetch car data by location and year
+// Fetch car data grouped by location and year
 $conn = get_db_connection();
 $stmt = $conn->prepare("
     SELECT location, year, COUNT(*) AS car_count 
@@ -26,54 +26,53 @@ while ($row = $cars->fetch_assoc()) {
     $data[$row['location']][$row['year']] = $row['car_count'];
 }
 
-// Prepare the years list and data
+// Prepare the years list and data for Plotly.js
 $years = array_keys($years);  // Extract unique years
 $locations = array_unique($locations);  // Remove duplicates from locations
+
+// Prepare data for the Plotly chart
+$trace_data = [];
+
+foreach ($years as $year) {
+    $trace = [
+        'x' => $locations,  // X-axis (locations)
+        'y' => array_map(function($location) use ($year, $data) {
+            return isset($data[$location][$year]) ? $data[$location][$year] : 0;
+        }, $locations),
+        'type' => 'bar',
+        'name' => (string) $year  // Set the year as the name of the trace
+    ];
+    $trace_data[] = $trace;
+}
 ?>
 
-<h1>Lib2: Column Chart using Plotly.js</h1>
-<p>This page uses Plotly.js to display a column chart comparing car counts by location and year.</p>
+<h1>Lib2: Stacked Bar Chart using Plotly.js</h1>
+<p>This page uses Plotly.js to display a stacked bar chart comparing car counts by location and year.</p>
 
 <div id="carColumnChart" style="width:100%; height: 400px;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/plotly.js"></script>
 <script>
-    var locations = <?php echo json_encode($locations); ?>;
-    var years = <?php echo json_encode($years); ?>;
-    var data = <?php echo json_encode($data); ?>;
+    var data = <?php echo json_encode($trace_data); ?>;  // Data from PHP passed to JavaScript
 
-    // Prepare data for the plot
-    var traces = [];
-
-    // Generate a trace for each year
-    years.forEach(function(year) {
-        var trace = {
-            x: locations,
-            y: locations.map(function(location) { return data[location][year] || 0; }),
-            type: 'bar',
-            name: year
-        };
-        traces.push(trace);
-    });
-
-    // Layout for the column chart
+    // Layout configuration for the Plotly chart
     var layout = {
-        barmode: 'group',  // Bars grouped together for each location
+        barmode: 'stack',  // Stacked bar mode
         title: 'Car Count by Location and Year',
         xaxis: {
             title: 'Location',
             tickmode: 'array',
-            tickvals: locations,
+            tickvals: <?php echo json_encode($locations); ?>  // Dynamic location labels
         },
         yaxis: {
             title: 'Number of Cars',
-            tickformat: 'd',  // Format y-axis as integer (no decimals)
-            rangemode: 'tozero'
+            rangemode: 'tozero',  // Ensure y-axis starts at 0
+            tickformat: 'd'  // Format y-axis as integer
         }
     };
 
-    // Create the chart
-    Plotly.newPlot('carColumnChart', traces, layout);
+    // Create the Plotly chart
+    Plotly.newPlot('carColumnChart', data, layout);
 </script>
 
 <?php include "view-footer.php"; ?>
