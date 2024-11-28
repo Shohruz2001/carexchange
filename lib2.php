@@ -62,7 +62,7 @@ foreach ($years as $year) {
             text: 'Car Count by Location and Year'
         },
         xAxis: {
-            categories: <?php echo json_encode($locations); ?>,  // Locations for the x-axis
+            categories: <?php echo json_encode($locations); ?>,  // Locations for the x-axis (using actual names)
             title: {
                 text: 'Location'
             }
