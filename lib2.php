@@ -1,50 +1,51 @@
 <!-- lib2.php -->
 <?php
 require_once('util-db.php');  // Include the database connection
-$pageTitle = "Interactive Table: Car Data";
+$pageTitle = "Car Availability Heatmap";
 include "view-header.php";  // Include the header for the page
 
-// Fetch all car data from the database
+// Fetch car availability data by location and time (could be monthly, daily, etc.)
 $conn = get_db_connection();
-$stmt = $conn->prepare("SELECT make, model, year, location, availability_start, availability_end FROM cars");
+$stmt = $conn->prepare("SELECT location, availability_start, availability_end FROM cars");
 $stmt->execute();
 $cars = $stmt->get_result();
 $conn->close();
+
+// Prepare data for the heatmap
+$locations = [];
+$times = [];
+$availability = [];
+
+// Example of data transformation (this will be done in the loop for dynamic data)
+while ($row = $cars->fetch_assoc()) {
+    $locations[] = $row['location'];
+    $times[] = $row['availability_start'];  // Consider modifying the time format as needed
+    $availability[] = rand(1, 10);  // Random data for heatmap intensity (replace with actual logic)
+}
+
 ?>
 
-<h1>Lib2: Interactive Table using DataTables.js</h1>
-<p>This page uses DataTables.js to display an interactive table with car data including make, model, year, and location.</p>
+<h1>Lib2: Car Availability Heatmap using Chart.js</h1>
+<p>This page uses Chart.js to display a heatmap showing the availability of cars over time in different locations.</p>
 
-<table id="carTable" class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Make</th>
-            <th>Model</th>
-            <th>Year</th>
-            <th>Location</th>
-            <th>Availability Start</th>
-            <th>Availability End</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php while ($car = $cars->fetch_assoc()) { ?>
-        <tr>
-            <td><?php echo $car['make']; ?></td>
-            <td><?php echo $car['model']; ?></td>
-            <td><?php echo $car['year']; ?></td>
-            <td><?php echo $car['location']; ?></td>
-            <td><?php echo $car['availability_start']; ?></td>
-            <td><?php echo $car['availability_end']; ?></td>
-        </tr>
-        <?php } ?>
-    </tbody>
-</table>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/datatables.net/js/jquery.dataTables.min.js"></script>
+<canvas id="carHeatmap" width="400" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-heatmap@1.0.0"></script>
 <script>
-    $(document).ready(function() {
-        $('#carTable').DataTable();  // Activate DataTables on the table
+    var ctx = document.getElementById('carHeatmap').getContext('2d');
+
+    var carHeatmap = new Chart(ctx, {
+        type: 'heatmap',
+        data: {
+            labels: <?php echo json_encode($locations); ?>,  // Locations dynamically from DB
+            datasets: [{
+                label: 'Car Availability',
+                data: <?php echo json_encode($availability); ?>,  // Random availability data for heatmap
+                backgroundColor: 'rgba(0, 255, 0, 0.5)',  // Modify color range for the heatmap
+                borderColor: 'rgba(0, 255, 0, 1)',
+                borderWidth: 1
+            }]
+        }
     });
 </script>
 
