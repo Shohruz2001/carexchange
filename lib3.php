@@ -1,7 +1,8 @@
 <!-- lib3.php -->
 <?php
+require_once('util-db.php');  // Include the database connection
 $pageTitle = "Form Validation using Formik.js";
-include "view-header.php";
+include "view-header.php";  // Include the header for the page
 
 // Fetch car makes and locations for the form options
 $conn = get_db_connection();
