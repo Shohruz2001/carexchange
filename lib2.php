@@ -1,7 +1,7 @@
 <!-- lib2.php -->
 <?php
 require_once('util-db.php');  // Include the database connection
-$pageTitle = "Column Chart: Car Data by Location and Year";
+$pageTitle = "Stacked Column Chart: Car Data by Location and Year";
 include "view-header.php";  // Include the header for the page
 
 // Fetch car data grouped by location and year
@@ -26,57 +26,66 @@ while ($row = $cars->fetch_assoc()) {
     $data[$row['location']][$row['year']] = $row['car_count'];
 }
 
-// Prepare the years list and data for Plotly.js
+// Prepare the years list and data for Highcharts
 $years = array_keys($years);  // Extract unique years
 $locations = array_unique($locations);  // Remove duplicates from locations
 
-// Prepare data for the Plotly chart
-$trace_data = [];
-
+// Prepare data for the Highcharts chart
+$series_data = [];
 foreach ($years as $year) {
-    $trace = [
-        'x' => $locations,  // X-axis (locations)
-        'y' => array_map(function($location) use ($year, $data) {
-            return isset($data[$location][$year]) ? $data[$location][$year] : 0;
-        }, $locations),
-        'type' => 'bar',
-        'name' => (string) $year  // Set the year as the name of the trace
+    $year_data = [
+        'name' => (string)$year,  // Set the year as the name of the series
+        'data' => []
     ];
-    $trace_data[] = $trace;
+    foreach ($locations as $location) {
+        $year_data['data'][] = isset($data[$location][$year]) ? $data[$location][$year] : 0;
+    }
+    $series_data[] = $year_data;
 }
 ?>
 
-<h1>Lib2: Column Chart using Plotly.js</h1>
-<p>This page uses Plotly.js to display a column chart comparing car counts by location and year.</p>
+<h1>Lib2: Stacked Column Chart using Highcharts.js</h1>
+<p>This page uses Highcharts.js to display a stacked column chart comparing car counts by location and year.</p>
 
 <div id="carColumnChart" style="width:100%; height: 400px;"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/plotly.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <script>
-    console.log('Locations:', <?php echo json_encode($locations); ?>);
-    console.log('Years:', <?php echo json_encode($years); ?>);
-    console.log('Trace Data:', <?php echo json_encode($trace_data); ?>);
+    // Prepare data for the Highcharts chart
+    var chartData = <?php echo json_encode($series_data); ?>; // Data passed from PHP
 
-    var data = <?php echo json_encode($trace_data); ?>;  // Data from PHP passed to JavaScript
-
-    // Layout configuration for the Plotly chart
-    var layout = {
-        barmode: 'stack',  // Stacked bar mode
-        title: 'Car Count by Location and Year',
-        xaxis: {
-            title: 'Location',
-            tickmode: 'array',
-            tickvals: <?php echo json_encode($locations); ?>  // Dynamic location labels
+    Highcharts.chart('carColumnChart', {
+        chart: {
+            type: 'column'
         },
-        yaxis: {
-            title: 'Number of Cars',
-            rangemode: 'tozero',  // Ensure y-axis starts at 0
-            tickformat: 'd'  // Format y-axis as integer
+        title: {
+            text: 'Car Count by Location and Year'
+        },
+        xAxis: {
+            categories: <?php echo json_encode($locations); ?>,  // Locations for the x-axis
+            title: {
+                text: 'Location'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Number of Cars'
+            }
+        },
+        legend: {
+            reversed: true
+        },
+        tooltip: {
+            pointFormat: '{series.name}: {point.y}<br>Total: {point.stackTotal}'
+        },
+        series: chartData,  // Data for each year
+        plotOptions: {
+            column: {
+                stacking: 'normal'  // Enable stacking
+            }
         }
-    };
-
-    // Create the Plotly chart
-    Plotly.newPlot('carColumnChart', data, layout);
+    });
 </script>
 
 <?php include "view-footer.php"; ?>
