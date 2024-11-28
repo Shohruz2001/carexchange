@@ -1,10 +1,10 @@
 <!-- lib4.php -->
 <?php
 require_once('util-db.php');  // Include the database connection
-$pageTitle = "Bar Chart: Cars by Location";
+$pageTitle = "Donut Chart: Car Counts by Location";
 include "view-header.php";  // Include the header for the page
 
-// Fetch car counts by location from the database
+// Fetch car counts by location
 $conn = get_db_connection();
 $stmt = $conn->prepare("SELECT location, COUNT(*) AS car_count FROM cars GROUP BY location");
 $stmt->execute();
@@ -19,22 +19,22 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<h1>Lib4: Bar Chart using Chart.js</h1>
-<p>This page uses Chart.js to display a bar chart showing the count of cars by location.</p>
+<h1>Lib4: Donut Chart using Chart.js</h1>
+<p>This page uses Chart.js to display a donut chart showing the distribution of cars by location.</p>
 
-<canvas id="carBarChart" width="400" height="400"></canvas>
+<canvas id="carDonutChart" width="400" height="400"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('carBarChart').getContext('2d');
-    var carBarChart = new Chart(ctx, {
-        type: 'bar',
+    var ctx = document.getElementById('carDonutChart').getContext('2d');
+    var carDonutChart = new Chart(ctx, {
+        type: 'doughnut',
         data: {
-            labels: <?php echo json_encode($locations); ?>,  // Car locations dynamically from DB
+            labels: <?php echo json_encode($locations); ?>,  // Dynamic car locations
             datasets: [{
                 label: 'Car Count by Location',
-                data: <?php echo json_encode($counts); ?>,  // Car count by location dynamically from DB
-                backgroundColor: '#3498db',
-                borderColor: '#2980b9',
+                data: <?php echo json_encode($counts); ?>,  // Dynamic car counts
+                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6'],
+                borderColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6'],
                 borderWidth: 1
             }]
         }
