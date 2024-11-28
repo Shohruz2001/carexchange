@@ -1,8 +1,8 @@
 <!-- lib3.php -->
 <?php
-require_once('util-db.php');  // Include the database connection
+require_once('util-db.php'); 
 $pageTitle = "Line Chart: Car Availability Over Time (By Month)";
-include "view-header.php";  // Include the header for the page
+include "view-header.php";
 
 // Fetch car availability grouped by month and year
 $conn = get_db_connection();
