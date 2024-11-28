@@ -51,6 +51,11 @@ foreach ($years as $year) {
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script>
+    // Debugging: Check if the locations and data are correctly passed to JavaScript
+    console.log('Locations:', <?php echo json_encode($locations); ?>);  // Locations should be unique names
+    console.log('Years:', <?php echo json_encode($years); ?>);  // List of years
+    console.log('Series Data:', <?php echo json_encode($series_data); ?>);  // Data for each year
+
     // Prepare data for the Highcharts chart
     var chartData = <?php echo json_encode($series_data); ?>; // Data passed from PHP
 
