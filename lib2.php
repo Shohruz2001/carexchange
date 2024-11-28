@@ -1,8 +1,8 @@
 <!-- lib2.php -->
 <?php
-require_once('util-db.php');  // Include the database connection
+require_once('util-db.php'); 
 $pageTitle = "Stacked Column Chart: Car Data by Location and Year";
-include "view-header.php";  // Include the header for the page
+include "view-header.php"; 
 
 // Fetch car data grouped by location and year
 $conn = get_db_connection();
