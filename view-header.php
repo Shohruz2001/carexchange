@@ -44,7 +44,7 @@
                             <a class="nav-link" href="lib3.php">Lib3: Line Chart Categorized by Month</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lib4.php">Lib4: Donut Chart using Chart.js</a>
+                            <a class="nav-link" href="lib4.php">Lib4: Donut Chart </a>
                         </li>
                     </ul>
                 </div>
