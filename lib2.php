@@ -4,49 +4,66 @@ require_once('util-db.php');  // Include the database connection
 $pageTitle = "Car Availability Heatmap";
 include "view-header.php";  // Include the header for the page
 
-// Fetch car availability data by location and time (could be monthly, daily, etc.)
+// Fetch car availability data from the database
 $conn = get_db_connection();
-$stmt = $conn->prepare("SELECT location, availability_start, availability_end FROM cars");
+$stmt = $conn->prepare("SELECT location, availability_start, availability_end, COUNT(*) AS car_count FROM cars GROUP BY location, availability_start, availability_end");
 $stmt->execute();
-$cars = $stmt->get_result();
+$result = $stmt->get_result();
 $conn->close();
 
-// Prepare data for the heatmap
 $locations = [];
-$times = [];
 $availability = [];
+$car_counts = [];
 
-// Example of data transformation (this will be done in the loop for dynamic data)
-while ($row = $cars->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) {
     $locations[] = $row['location'];
-    $times[] = $row['availability_start'];  // Consider modifying the time format as needed
-    $availability[] = rand(1, 10);  // Random data for heatmap intensity (replace with actual logic)
+    $availability[] = $row['availability_start'];
+    $car_counts[] = $row['car_count'];
 }
-
 ?>
 
-<h1>Lib2: Car Availability Heatmap using Chart.js</h1>
-<p>This page uses Chart.js to display a heatmap showing the availability of cars over time in different locations.</p>
+<h1>Lib2: Heatmap of Car Availability</h1>
+<p>This page uses Chart.js with the Heatmap plugin to visualize car availability over time and location.</p>
 
 <canvas id="carHeatmap" width="400" height="400"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-heatmap@1.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-heatmap"></script>
 <script>
     var ctx = document.getElementById('carHeatmap').getContext('2d');
 
-    var carHeatmap = new Chart(ctx, {
+    var data = {
+        datasets: [{
+            label: 'Car Availability by Location and Time',
+            data: <?php echo json_encode($car_counts); ?>,
+            xAxisID: 'location',
+            yAxisID: 'time',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    var config = {
         type: 'heatmap',
-        data: {
-            labels: <?php echo json_encode($locations); ?>,  // Locations dynamically from DB
-            datasets: [{
-                label: 'Car Availability',
-                data: <?php echo json_encode($availability); ?>,  // Random availability data for heatmap
-                backgroundColor: 'rgba(0, 255, 0, 0.5)',  // Modify color range for the heatmap
-                borderColor: 'rgba(0, 255, 0, 1)',
-                borderWidth: 1
-            }]
+        data: data,
+        options: {
+            responsive: true,
+            scales: {
+                x: { 
+                    type: 'category',
+                    labels: <?php echo json_encode($locations); ?>,
+                    title: { text: 'Location', display: true }
+                },
+                y: { 
+                    type: 'category',
+                    labels: <?php echo json_encode($availability); ?>,
+                    title: { text: 'Availability Date', display: true }
+                }
+            }
         }
-    });
+    };
+
+    var carHeatmap = new Chart(ctx, config);
 </script>
 
 <?php include "view-footer.php"; ?>
