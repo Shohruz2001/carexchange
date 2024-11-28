@@ -19,8 +19,8 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<h1>Lib1: Interactive Pie Chart using Chart.js</h1>
-<p>This page uses Chart.js to display a dynamic and interactive pie chart showing the distribution of car models across different locations.</p>
+<h1>Lib1: Pie Chart using Chart.js</h1>
+<p>This page uses Chart.js to display a pie chart showing the distribution of car models across the dataset.</p>
 
 <canvas id="carPieChart" width="400" height="400"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -29,10 +29,10 @@ while ($row = $result->fetch_assoc()) {
     var carPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: <?php echo json_encode($models); ?>,  // Car models dynamically from DB
+            labels: <?php echo json_encode($models); ?>,  // Car models dynamically from the DB
             datasets: [{
                 label: 'Car Models',
-                data: <?php echo json_encode($counts); ?>,  // Car model counts dynamically from DB
+                data: <?php echo json_encode($counts); ?>,  // Car model counts dynamically from the DB
                 backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC300', '#DAF7A6', '#581845'],
                 borderColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC300', '#DAF7A6', '#581845'],
                 borderWidth: 1
