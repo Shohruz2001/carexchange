@@ -1,7 +1,8 @@
 <!-- lib4.php -->
 <?php
+require_once('util-db.php');  // Include the database connection
 $pageTitle = "Bar Chart: Cars by Location";
-include "view-header.php";
+include "view-header.php";  // Include the header for the page
 
 // Fetch car counts by location from the database
 $conn = get_db_connection();
@@ -28,10 +29,10 @@ while ($row = $result->fetch_assoc()) {
     var carBarChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: <?php echo json_encode($locations); ?>,  // Car locations dynamically from the DB
+            labels: <?php echo json_encode($locations); ?>,  // Car locations dynamically from DB
             datasets: [{
                 label: 'Car Count by Location',
-                data: <?php echo json_encode($counts); ?>,  // Car count by location dynamically from the DB
+                data: <?php echo json_encode($counts); ?>,  // Car count by location dynamically from DB
                 backgroundColor: '#3498db',
                 borderColor: '#2980b9',
                 borderWidth: 1
