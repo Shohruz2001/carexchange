@@ -63,16 +63,16 @@
 
                         <!-- New links for the JavaScript Libraries -->
                         <li class="nav-item">
-                            <a class="nav-link" href="lib1.php">Lib1: Pie Chart</a>
+                            <a class="nav-link" href="lib1.php">Pie Chart of Car Models</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lib2.php">Lib2: Stacked Bar Chart using Plotly.js</a>
+                            <a class="nav-link" href="lib2.php">Car Count By Location and Year</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lib3.php">Lib3: Line Chart Categorized by Month</a>
+                            <a class="nav-link" href="lib3.php">Car Availability Over Time (By Month)</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lib4.php">Lib4: Donut Chart </a>
+                            <a class="nav-link" href="lib4.php">Distribution of Cars by Location </a>
                         </li>
                     </ul>
                 </div>
