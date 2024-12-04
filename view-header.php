@@ -6,23 +6,29 @@
     <title><?= $pageTitle ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgICS+VKNBQNGCHeKRQN+PtmoHDEXuppvnDIzQIu9" crossorigin="anonymous">
     <style>
-        /* Background image */
+        /* Initial background image */
         body {
             background-image: url('Images/ford_mustang1.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: white; /* Adjust text color for visibility on the background */
+            transition: background-image 1s ease-in-out; /* Smooth transition between backgrounds */
         }
+
+        /* Navbar styles */
         .navbar {
             background-color: rgba(0, 0, 0, 0.6); /* Transparent black for navbar */
         }
+
         .navbar a {
             color: white !important; /* White text for the navbar links */
         }
+
         .navbar a:hover {
             color: #FFD700 !important; /* Gold color on hover */
         }
+
         .container {
             max-width: 90%; /* To prevent the content from being too wide */
         }
@@ -72,3 +78,21 @@
                 </div>
             </div>
         </nav>
+
+    </div>
+    
+    <!-- JavaScript to change background image -->
+    <script>
+        let currentBackground = 0;
+        const backgrounds = [
+            'Images/ford_mustang1.jpg',
+            'Images/mercedez1.jpg'
+        ];
+
+        setInterval(function() {
+            document.body.style.backgroundImage = `url('${backgrounds[currentBackground]}')`;
+            currentBackground = (currentBackground + 1) % backgrounds.length;
+        }, 5000); // Switch every 5 seconds
+    </script>
+</body>
+</html>
