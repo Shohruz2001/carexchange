@@ -44,7 +44,7 @@ foreach ($years as $year) {
 }
 ?>
 
-<h1>Lib2: Stacked Column Chart using Highcharts.js</h1>
+<h1>Car Count By Location and Year</h1>
 <p>This page uses Highcharts.js to display a stacked column chart comparing car counts by location and year.</p>
 
 <div id="carColumnChart" style="width:100%; height: 400px;"></div>
