@@ -19,7 +19,7 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<h1>Lib4: Donut Chart using Chart.js</h1>
+<h1>Distribution of Cars by Location</h1>
 <p>This page uses Chart.js to display a donut chart showing the distribution of cars by location.</p>
 
 <canvas id="carDonutChart" width="400" height="400"></canvas>
