@@ -19,7 +19,7 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<h1>Lib1: Pie Chart using Chart.js</h1>
+<h1>Pie Chart of Car Models</h1>
 <p>This page uses Chart.js to display a pie chart showing the distribution of car models across the dataset.</p>
 
 <canvas id="carPieChart" width="400" height="400"></canvas>
