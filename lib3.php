@@ -33,7 +33,7 @@ $formatted_months = array_map(function($month) {
 }, $months);
 ?>
 
-<h1>Lib3: Line Chart for Car Availability Over Time (By Month)</h1>
+<h1>Car Availability Over Time (By Month)</h1>
 <p>This page uses Chart.js to display a line chart visualizing car availability by month, based on the start dates of car availability.</p>
 
 <canvas id="availabilityLineChart" width="400" height="400"></canvas>
