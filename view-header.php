@@ -18,14 +18,14 @@
 
         /* Navbar styles */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.9); /* Darker transparent background */
-            padding: 1rem 2rem; /* Add padding for better spacing */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Shadow for depth */
+            background-color: rgba(0, 0, 0, 0.85); /* Slightly darker for better visibility */
+            padding: 1.5rem 2rem; /* Adjusted padding for better spacing */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Enhanced shadow effect */
         }
 
         .navbar-brand {
-            font-size: 24px; /* Larger brand font size */
-            color: white !important;
+            font-size: 28px; /* Larger brand text */
+            color: #FFD700 !important; /* Gold for brand */
             font-weight: bold;
         }
 
@@ -33,36 +33,22 @@
             display: flex;
             align-items: center;
             justify-content: space-around;
+            font-size: 20px; /* Increased font size for navigation links */
         }
 
         .nav-link {
             color: white !important;
-            text-decoration: none;
+            text-decoration: none !important; /* Remove underline */
             font-weight: bold;
-            font-size: 18px;
-            padding: 10px 15px;
-            transition: all 0.3s ease;
+            padding: 12px 20px; /* Larger padding for better clickability */
+            border-radius: 5px; /* Smooth button-like corners */
+            transition: all 0.3s ease; /* Smooth hover transition */
         }
 
         .nav-link:hover {
-            background-color: #FFD700 !important; /* Gold hover effect */
-            color: black !important;
-            border-radius: 5px;
-        }
-
-        .dropdown-menu {
-            background-color: rgba(0, 0, 0, 0.9); /* Dark dropdown background */
-            border: none;
-        }
-
-        .dropdown-item {
-            color: white !important;
-            font-weight: bold;
-        }
-
-        .dropdown-item:hover {
-            background-color: #FFD700;
-            color: black !important;
+            background-color: #FFD700; /* Gold hover background */
+            color: black !important; /* Black text on hover */
+            text-shadow: 0 0 10px #FFD700; /* Glow effect */
         }
 
         /* Responsive navbar adjustments */
@@ -73,11 +59,8 @@
             }
 
             .nav-link {
-                font-size: 16px;
-            }
-
-            .dropdown-menu {
-                width: 100%;
+                font-size: 18px; /* Slightly smaller for smaller screens */
+                margin-bottom: 10px; /* Add spacing for stacked items */
             }
         }
     </style>
@@ -85,6 +68,7 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
+            <a class="navbar-brand" href="/">Car Exchange</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -93,26 +77,14 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="/">Home</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Cars
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="cars.php">View Cars</a></li>
-                            <li><a class="dropdown-item" href="add-car.php">Add Car</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cars.php">Cars</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="users.php">Users</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTrips" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Trips
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownTrips">
-                            <li><a class="dropdown-item" href="trips.php">View Trips</a></li>
-                            <li><a class="dropdown-item" href="create-trip.php">Create Trip</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="trips.php">Trips</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="reservations.php">Reservations</a>
