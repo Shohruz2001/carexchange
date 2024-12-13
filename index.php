@@ -5,39 +5,50 @@ include "view-header.php";
 
 <div class="container mt-5">
     <!-- Homepage Title -->
-    <h1 class="text-center">Welcome to the Care Exchange Platform</h1>
-    <p class="text-center mt-3">Explore key insights into car availability, usage trends, and distribution across our platform through interactive visualizations below.</p>
+    <h1 class="text-center display-4 text-warning">Welcome to the Care Exchange Platform</h1>
+    <p class="text-center mt-3 lead text-light">
+        Discover a smarter way to explore new cities and share your car! With our platform, you can earn points by sharing your car and find available vehicles for your next trip.
+    </p>
+
+    <!-- Advertisement Section -->
+    <div class="bg-dark p-4 rounded mt-5">
+        <h2 class="text-center text-light">Why Choose Us?</h2>
+        <p class="text-center text-white-50">
+            Are you tired of working all week and want to visit a new city for the weekend? Don't have your car with you and don't want to pay high car rental fees? 
+            Register your car on our website, earn points, and check out available cars for your next trip. Travel smarter, save more, and explore better with Care Exchange Platform!
+        </p>
+    </div>
 
     <!-- Row for Charts -->
     <div class="row mt-5">
         <!-- Pie Chart: Car Models -->
         <div class="col-md-6 mb-4">
-            <h3 class="text-center">Car Models Distribution</h3>
-            <p class="text-center">A breakdown of car models in our system.</p>
-            <canvas id="carPieChart" style="max-height: 300px;"></canvas>
+            <h3 class="text-center text-light">Car Models Distribution</h3>
+            <p class="text-center text-light">A breakdown of car models in our system.</p>
+            <canvas id="carPieChart" style="max-height: 350px;"></canvas>
         </div>
 
         <!-- Column Chart: Car Count By Location and Year -->
         <div class="col-md-6 mb-4">
-            <h3 class="text-center">Car Count by Location and Year</h3>
-            <p class="text-center">Compare car counts across various locations and years.</p>
-            <div id="carColumnChart" style="max-height: 300px;"></div>
+            <h3 class="text-center text-light">Car Count by Location and Year</h3>
+            <p class="text-center text-light">Compare car counts across locations and years.</p>
+            <div id="carColumnChart" style="height: 350px;"></div>
         </div>
     </div>
 
     <div class="row">
         <!-- Line Chart: Car Availability -->
         <div class="col-md-6 mb-4">
-            <h3 class="text-center">Car Availability Over Time</h3>
-            <p class="text-center">Track car availability trends over months.</p>
-            <canvas id="availabilityLineChart" style="max-height: 300px;"></canvas>
+            <h3 class="text-center text-light">Car Availability Over Time</h3>
+            <p class="text-center text-light">Track car availability trends over months.</p>
+            <canvas id="availabilityLineChart" style="max-height: 350px;"></canvas>
         </div>
 
         <!-- Donut Chart: Distribution of Cars by Location -->
         <div class="col-md-6 mb-4">
-            <h3 class="text-center">Car Distribution by Location</h3>
-            <p class="text-center">The distribution of cars across locations.</p>
-            <canvas id="carDonutChart" style="max-height: 300px;"></canvas>
+            <h3 class="text-center text-light">Car Distribution by Location</h3>
+            <p class="text-center text-light">Explore the distribution of cars across locations.</p>
+            <canvas id="carDonutChart" style="max-height: 350px;"></canvas>
         </div>
     </div>
 </div>
@@ -128,24 +139,20 @@ while ($row = $result->fetch_assoc()) {
 $conn->close();
 ?>
 
-<!-- Chart.js: Pie Chart (Car Models) -->
+<!-- Chart.js: Pie Chart -->
 <script>
     var ctxPie = document.getElementById('carPieChart').getContext('2d');
-    var carPieChart = new Chart(ctxPie, {
+    new Chart(ctxPie, {
         type: 'pie',
         data: {
             labels: <?php echo json_encode($models); ?>,
             datasets: [{
                 data: <?php echo json_encode($counts); ?>,
-                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC300', '#DAF7A6', '#581845'],
-                borderWidth: 1
+                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC300', '#DAF7A6', '#581845']
             }]
         },
         options: {
-            plugins: {
-                legend: { position: 'top' },
-                tooltip: { callbacks: { label: (tooltipItem) => tooltipItem.label + ': ' + tooltipItem.raw + ' cars' } }
-            }
+            plugins: { legend: { position: 'top' } }
         }
     });
 </script>
@@ -154,19 +161,16 @@ $conn->close();
 <script>
     Highcharts.chart('carColumnChart', {
         chart: { type: 'column' },
-        title: { text: '' },
         xAxis: { categories: <?php echo json_encode($locations); ?> },
         yAxis: { title: { text: 'Number of Cars' } },
-        series: <?php echo json_encode($series_data); ?>,
-        plotOptions: { column: { stacking: 'normal' } },
-        legend: { reversed: true }
+        series: <?php echo json_encode($series_data); ?>
     });
 </script>
 
-<!-- Chart.js: Line Chart (Car Availability) -->
+<!-- Chart.js: Line Chart -->
 <script>
     var ctxLine = document.getElementById('availabilityLineChart').getContext('2d');
-    var availabilityLineChart = new Chart(ctxLine, {
+    new Chart(ctxLine, {
         type: 'line',
         data: {
             labels: <?php echo json_encode($formatted_months); ?>,
@@ -178,27 +182,20 @@ $conn->close();
                 fill: true
             }]
         },
-        options: {
-            responsive: true,
-            scales: {
-                x: { title: { display: true, text: 'Month and Year' } },
-                y: { title: { display: true, text: 'Number of Cars' }, beginAtZero: true }
-            }
-        }
+        options: { scales: { y: { beginAtZero: true } } }
     });
 </script>
 
 <!-- Chart.js: Donut Chart -->
 <script>
     var ctxDonut = document.getElementById('carDonutChart').getContext('2d');
-    var carDonutChart = new Chart(ctxDonut, {
+    new Chart(ctxDonut, {
         type: 'doughnut',
         data: {
             labels: <?php echo json_encode($donut_locations); ?>,
             datasets: [{
                 data: <?php echo json_encode($donut_counts); ?>,
-                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6'],
-                borderWidth: 1
+                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6']
             }]
         }
     });
