@@ -156,13 +156,13 @@ $conn->close();
             legend: {
                 position: 'top',
                 labels: {
-                    color: '#FFD700', // Highlight the text with golden color
+                    color: '#FFD700', 
                     font: {
-                        size: 14, // Increase font size for better visibility
-                        weight: 'bold' // Make the text bold for emphasis
+                        size: 14, 
+                        weight: 'bold' 
                     },
-                    boxWidth: 20, // Adjust the width of the color box
-                    padding: 10 // Add padding between legend items
+                    boxWidth: 20, 
+                    padding: 10 
                 }
             },
             title: {
@@ -170,7 +170,7 @@ $conn->close();
                 text: 'Car Models Distribution',
                 font: {
                         size: 24},
-                color: '#FFD700' // Color for the chart title
+                color: '#FFD700' 
             }
         }
     }
@@ -183,13 +183,13 @@ $conn->close();
         chart: { type: 'column' },
         title: { text: 'Car Count by Location and Year', color: '#FFD700' },
         xAxis: { 
-            categories: <?php echo json_encode(array_values($locations)); ?>, // Use actual location names
+            categories: <?php echo json_encode(array_values($locations)); ?>, 
             title: { text: 'Locations', color: '#FFD700' }
         },
         yAxis: { 
             title: { text: 'Number of Cars', color: '#FFD700' } 
         },
-        series: <?php echo json_encode($series_data); ?>, // Data grouped by years
+        series: <?php echo json_encode($series_data); ?>, 
         plotOptions: { 
             column: { stacking: 'normal' } 
         },
@@ -219,17 +219,42 @@ $conn->close();
             }]
         },
         options: { 
-            scales: { 
-                x: { title: { display: true, text: 'Months', color: '#FFD700' } },
-                y: { title: { display: true, text: 'Number of Cars', color: '#FFD700' } }
+        scales: { 
+            x: { 
+                title: { 
+                    display: true, 
+                    text: 'Months', 
+                    color: '#FFD700'
+                }
             },
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Car Availability Over Time', color: '#FFD700'
+            y: { 
+                title: { 
+                    display: true, 
+                    text: 'Number of Cars', 
+                    color: '#FFD700' 
                 }
             }
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    color: '#FFD700', 
+                    font: {
+                        size: 14, 
+                        weight: 'bold' 
+                    },
+                    boxWidth: 20,
+                    padding: 10 
+                }
+            },
+            title: {
+                display: true,
+                text: 'Car Availability Over Time', 
+                color: '#FFD700' 
+            }
         }
+    }
     });
 </script>
 
