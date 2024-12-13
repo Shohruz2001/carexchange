@@ -1,4 +1,4 @@
-<?php 
+<?php  
 $pageTitle = "Home";
 include "view-header.php"; 
 ?>
@@ -57,90 +57,9 @@ include "view-header.php";
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
-<!-- PHP: Fetch Data for Charts -->
-<?php
-require_once('util-db.php');
-
-// Pie Chart Data
-$conn = get_db_connection();
-$stmt = $conn->prepare("SELECT model, COUNT(*) AS model_count FROM cars GROUP BY model");
-$stmt->execute();
-$result = $stmt->get_result();
-$models = [];
-$counts = [];
-while ($row = $result->fetch_assoc()) {
-    $models[] = $row['model'];
-    $counts[] = $row['model_count'];
-}
-$stmt->close();
-
-// Column Chart Data
-$stmt = $conn->prepare("
-    SELECT location, year, COUNT(*) AS car_count 
-    FROM cars 
-    GROUP BY location, year
-    ORDER BY location, year
-");
-$stmt->execute();
-$cars = $stmt->get_result();
-$locations = [];
-$years = [];
-$data = [];
-while ($row = $cars->fetch_assoc()) {
-    $locations[] = $row['location'];
-    $years[$row['year']] = true;
-    $data[$row['location']][$row['year']] = $row['car_count'];
-}
-$years = array_keys($years);
-$locations = array_unique($locations);
-$series_data = [];
-foreach ($years as $year) {
-    $year_data = ['name' => (string)$year, 'data' => []];
-    foreach ($locations as $location) {
-        $year_data['data'][] = isset($data[$location][$year]) ? $data[$location][$year] : 0;
-    }
-    $series_data[] = $year_data;
-}
-$stmt->close();
-
-// Line Chart Data
-$stmt = $conn->prepare("
-    SELECT 
-        DATE_FORMAT(availability_start, '%Y-%m') AS month, 
-        COUNT(*) AS car_count 
-    FROM cars 
-    GROUP BY month
-    ORDER BY month ASC
-");
-$stmt->execute();
-$result = $stmt->get_result();
-$months = [];
-$car_counts = [];
-while ($row = $result->fetch_assoc()) {
-    $months[] = $row['month'];
-    $car_counts[] = $row['car_count'];
-}
-$formatted_months = array_map(function($month) {
-    $date = DateTime::createFromFormat('Y-m', $month);
-    return $date->format('F Y');
-}, $months);
-$stmt->close();
-
-// Donut Chart Data
-$stmt = $conn->prepare("SELECT location, COUNT(*) AS car_count FROM cars GROUP BY location");
-$stmt->execute();
-$result = $stmt->get_result();
-$donut_locations = [];
-$donut_counts = [];
-while ($row = $result->fetch_assoc()) {
-    $donut_locations[] = $row['location'];
-    $donut_counts[] = $row['car_count'];
-}
-$conn->close();
-?>
-
-<!-- Chart.js: Pie Chart -->
+<!-- Updated JavaScript for Charts -->
 <script>
+    // Pie Chart
     var ctxPie = document.getElementById('carPieChart').getContext('2d');
     new Chart(ctxPie, {
         type: 'pie',
@@ -152,42 +71,48 @@ $conn->close();
             }]
         },
         options: {
-            plugins: { legend: { position: 'top' } },
-            title: {
-                display: true,
-                text: 'Car Models Distribution'
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Car Models Distribution',
+                    color: '#FFFFFF',
+                    font: {
+                        size: 16,
+                        family: 'Arial'
+                    }
+                },
+                legend: {
+                    labels: {
+                        color: '#FFFFFF',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
             }
         }
     });
-</script>
 
-<!-- Highcharts: Column Chart -->
-<script>
+    // Column Chart
     Highcharts.chart('carColumnChart', {
-        chart: { type: 'column' },
-        title: { text: 'Car Count by Location and Year' },
+        chart: { type: 'column', backgroundColor: 'transparent' },
+        title: { text: 'Car Count by Location and Year', style: { color: '#FFFFFF', fontSize: '16px' } },
         xAxis: { 
-            categories: <?php echo json_encode(array_values($locations)); ?>, // Use actual location names
-            title: { text: 'Locations' }
+            categories: <?php echo json_encode(array_values($locations)); ?>, 
+            title: { text: 'Locations', style: { color: '#FFFFFF' } },
+            labels: { style: { color: '#FFFFFF' } }
         },
         yAxis: { 
-            title: { text: 'Number of Cars' } 
+            title: { text: 'Number of Cars', style: { color: '#FFFFFF' } },
+            labels: { style: { color: '#FFFFFF' } }
         },
-        series: <?php echo json_encode($series_data); ?>, // Data grouped by years
-        plotOptions: { 
-            column: { stacking: 'normal' } 
-        },
-        legend: { 
-            layout: 'horizontal', 
-            align: 'center', 
-            verticalAlign: 'bottom' 
+        series: <?php echo json_encode($series_data); ?>,
+        legend: {
+            itemStyle: { color: '#FFFFFF' }
         }
     });
-</script>
 
-
-<!-- Chart.js: Line Chart -->
-<script>
+    // Line Chart
     var ctxLine = document.getElementById('availabilityLineChart').getContext('2d');
     new Chart(ctxLine, {
         type: 'line',
@@ -202,22 +127,28 @@ $conn->close();
             }]
         },
         options: { 
-            scales: { 
-                x: { title: { display: true, text: 'Months' } },
-                y: { title: { display: true, text: 'Number of Cars' } }
-            },
             plugins: {
                 title: {
                     display: true,
-                    text: 'Car Availability Over Time'
+                    text: 'Car Availability Over Time',
+                    color: '#FFFFFF',
+                    font: { size: 16 }
+                }
+            },
+            scales: { 
+                x: { 
+                    title: { display: true, text: 'Months', color: '#FFFFFF' },
+                    ticks: { color: '#FFFFFF' }
+                },
+                y: { 
+                    title: { display: true, text: 'Number of Cars', color: '#FFFFFF' },
+                    ticks: { color: '#FFFFFF' }
                 }
             }
         }
     });
-</script>
 
-<!-- Chart.js: Donut Chart -->
-<script>
+    // Donut Chart
     var ctxDonut = document.getElementById('carDonutChart').getContext('2d');
     new Chart(ctxDonut, {
         type: 'doughnut',
@@ -230,10 +161,21 @@ $conn->close();
         },
         options: {
             plugins: {
-                legend: { position: 'top' },
                 title: {
                     display: true,
-                    text: 'Car Distribution by Location'
+                    text: 'Car Distribution by Location',
+                    color: '#FFFFFF',
+                    font: {
+                        size: 16
+                    }
+                },
+                legend: {
+                    labels: {
+                        color: '#FFFFFF',
+                        font: {
+                            size: 14
+                        }
+                    }
                 }
             }
         }
