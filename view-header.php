@@ -18,90 +18,109 @@
 
         /* Navbar styles */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.8); /* Slightly darker transparent black for better visibility */
+            background-color: rgba(0, 0, 0, 0.9); /* Darker transparent background */
             padding: 1rem 2rem; /* Add padding for better spacing */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
-        }
-
-        .navbar-nav {
-            display: flex !important; /* Force horizontal layout */
-            flex-direction: row !important; /* Align items in a row */
-        }
-
-        .nav-item {
-            margin-right: 25px; /* Add more spacing between links */
-        }
-
-        .navbar a {
-            color: white !important; /* White text for the navbar links */
-            text-decoration: none !important; /* Remove underline */
-            font-weight: bold; /* Make text bold */
-            font-size: 20px; /* Increase font size */
-            padding: 10px 15px; /* Add padding for better click area */
-            border-radius: 5px; /* Rounded corners for buttons */
-            transition: all 0.3s ease; /* Smooth transition for hover effect */
-        }
-
-        .navbar a:hover {
-            color: black !important; /* Black text on hover */
-            background-color: #FFD700 !important; /* Gold background on hover */
-            text-shadow: 0 0 10px #FFD700; /* Glow effect */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Shadow for depth */
         }
 
         .navbar-brand {
-            font-size: 24px; /* Larger brand text */
-            color: #FFD700 !important; /* Gold color for brand name */
+            font-size: 24px; /* Larger brand font size */
+            color: white !important;
             font-weight: bold;
         }
 
-        /* Ensure content is properly spaced and aligned */
-        .container {
-            max-width: 90%; /* Prevent the content from being too wide */
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .nav-link {
+            color: white !important;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #FFD700 !important; /* Gold hover effect */
+            color: black !important;
+            border-radius: 5px;
+        }
+
+        .dropdown-menu {
+            background-color: rgba(0, 0, 0, 0.9); /* Dark dropdown background */
+            border: none;
+        }
+
+        .dropdown-item {
+            color: white !important;
+            font-weight: bold;
+        }
+
+        .dropdown-item:hover {
+            background-color: #FFD700;
+            color: black !important;
         }
 
         /* Responsive navbar adjustments */
         @media (max-width: 768px) {
             .navbar-nav {
-                flex-direction: column !important; /* Stack items vertically on smaller screens */
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .nav-item {
-                margin-right: 0; /* Reset spacing */
-                margin-bottom: 10px; /* Add bottom margin */
+            .nav-link {
+                font-size: 16px;
+            }
+
+            .dropdown-menu {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Car Exchange</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="cars.php">Cars</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="users.php">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="trips.php">Trips</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="reservations.php">Reservations</a>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Cars
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="cars.php">View Cars</a></li>
+                            <li><a class="dropdown-item" href="add-car.php">Add Car</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="users.php">Users</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTrips" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Trips
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownTrips">
+                            <li><a class="dropdown-item" href="trips.php">View Trips</a></li>
+                            <li><a class="dropdown-item" href="create-trip.php">Create Trip</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reservations.php">Reservations</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
 
     <!-- JavaScript to change background image -->
     <script>
