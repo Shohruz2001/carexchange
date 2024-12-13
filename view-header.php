@@ -28,23 +28,26 @@
         .navbar a:hover {
             color: #FFD700 !important; /* Gold color on hover */
         }
-
+        
         .container {
             max-width: 90%; /* To prevent the content from being too wide */
+        }
+
+        /* Center navigation links */
+        .navbar-nav {
+            margin: auto;
         }
     </style>
 </head>
 <body>
     <div class="container mt-4">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">My Car Website</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <!-- Existing links -->
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
@@ -60,8 +63,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="reservations.php">Reservations</a>
                         </li>
-
-                        <!-- New links for the JavaScript Libraries -->
                         <li class="nav-item">
                             <a class="nav-link" href="lib1.php">Pie Chart of Car Models</a>
                         </li>
@@ -72,13 +73,12 @@
                             <a class="nav-link" href="lib3.php">Car Availability Over Time (By Month)</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lib4.php">Distribution of Cars by Location </a>
+                            <a class="nav-link" href="lib4.php">Distribution of Cars by Location</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
     </div>
     
     <!-- JavaScript to change background image -->
