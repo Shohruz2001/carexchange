@@ -168,6 +168,8 @@ $conn->close();
             title: {
                 display: true,
                 text: 'Car Models Distribution',
+                font: {
+                        size: 24},
                 color: '#FFD700' // Color for the chart title
             }
         }
