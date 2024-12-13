@@ -18,16 +18,6 @@ include "view-header.php";
             <span class="text-warning">Register your car on our website</span>, earn points, and check out available cars for your next trip. Travel smarter, save more, and explore better with the Care Exchange Platform!
         </p>
     </div>
-
-    <!-- Add Interactive Buttons Section -->
-    <div class="d-flex justify-content-center gap-3 mt-4">
-        <a href="register-car.php" class="btn btn-warning btn-lg px-5 py-3 fw-bold" style="box-shadow: 0 4px 10px rgba(255, 215, 0, 0.7);">
-            Register Your Car
-        </a>
-        <a href="browse-cars.php" class="btn btn-light btn-lg px-5 py-3 fw-bold text-dark" style="box-shadow: 0 4px 10px rgba(255, 255, 255, 0.7);">
-            Browse Cars
-        </a>
-    </div>
 </div>
 
     <!-- Row for Charts -->
