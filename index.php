@@ -151,13 +151,27 @@ $conn->close();
                 backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC300', '#DAF7A6', '#581845']
             }]
         },
-        options: {
-            plugins: { legend: { position: 'top' } },
+       options: {
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    color: '#FFD700', // Highlight the text with golden color
+                    font: {
+                        size: 14, // Increase font size for better visibility
+                        weight: 'bold' // Make the text bold for emphasis
+                    },
+                    boxWidth: 20, // Adjust the width of the color box
+                    padding: 10 // Add padding between legend items
+                }
+            },
             title: {
                 display: true,
-                text: 'Car Models Distribution'
+                text: 'Car Models Distribution',
+                color: '#FFD700' // Color for the chart title
             }
         }
+    }
     });
 </script>
 
