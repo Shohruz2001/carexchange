@@ -275,7 +275,11 @@ $conn->close();
                 legend: { position: 'top', color: '#FFD700' },
                 title: {
                     display: true,
-                    text: 'Car Distribution by Location', color: '#FFD700'
+                    text: 'Car Distribution by Location', color: '#FFD700',
+                    font: {
+                        size: 24, 
+                        weight: 'bold' 
+                    },
                 }
             }
         }
