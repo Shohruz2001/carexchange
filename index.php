@@ -248,11 +248,6 @@ $conn->close();
                     padding: 10 
                 }
             },
-            title: {
-                display: true,
-                text: 'Car Availability Over Time', 
-                color: '#FFD700' 
-            }
         }
     }
     });
