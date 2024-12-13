@@ -6,21 +6,21 @@ include "view-header.php";
 <div class="container mt-5">
     <!-- Homepage Title -->
     <h1 class="text-center">Welcome to the Care Exchange Platform</h1>
-    <p class="text-center mt-3">Explore our platform with insights into car availability, usage trends, and more. Below, you will find interactive visualizations to help you understand key data points.</p>
+    <p class="text-center mt-3">Explore key insights into car availability, usage trends, and distribution across our platform through interactive visualizations below.</p>
 
     <!-- Row for Charts -->
     <div class="row mt-5">
         <!-- Pie Chart: Car Models -->
         <div class="col-md-6 mb-4">
             <h3 class="text-center">Car Models Distribution</h3>
-            <p class="text-center">View the breakdown of car models across our platform.</p>
+            <p class="text-center">A breakdown of car models in our system.</p>
             <canvas id="carPieChart" style="max-height: 300px;"></canvas>
         </div>
 
         <!-- Column Chart: Car Count By Location and Year -->
         <div class="col-md-6 mb-4">
             <h3 class="text-center">Car Count by Location and Year</h3>
-            <p class="text-center">Compare car counts across different locations and years.</p>
+            <p class="text-center">Compare car counts across various locations and years.</p>
             <div id="carColumnChart" style="max-height: 300px;"></div>
         </div>
     </div>
@@ -36,7 +36,7 @@ include "view-header.php";
         <!-- Donut Chart: Distribution of Cars by Location -->
         <div class="col-md-6 mb-4">
             <h3 class="text-center">Car Distribution by Location</h3>
-            <p class="text-center">Explore the distribution of cars across locations.</p>
+            <p class="text-center">The distribution of cars across locations.</p>
             <canvas id="carDonutChart" style="max-height: 300px;"></canvas>
         </div>
     </div>
@@ -45,6 +45,88 @@ include "view-header.php";
 <!-- JavaScript for all charts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
+
+<!-- PHP: Fetch Data for Charts -->
+<?php
+require_once('util-db.php');
+
+// Pie Chart Data
+$conn = get_db_connection();
+$stmt = $conn->prepare("SELECT model, COUNT(*) AS model_count FROM cars GROUP BY model");
+$stmt->execute();
+$result = $stmt->get_result();
+$models = [];
+$counts = [];
+while ($row = $result->fetch_assoc()) {
+    $models[] = $row['model'];
+    $counts[] = $row['model_count'];
+}
+$stmt->close();
+
+// Column Chart Data
+$stmt = $conn->prepare("
+    SELECT location, year, COUNT(*) AS car_count 
+    FROM cars 
+    GROUP BY location, year
+    ORDER BY location, year
+");
+$stmt->execute();
+$cars = $stmt->get_result();
+$locations = [];
+$years = [];
+$data = [];
+while ($row = $cars->fetch_assoc()) {
+    $locations[] = $row['location'];
+    $years[$row['year']] = true;
+    $data[$row['location']][$row['year']] = $row['car_count'];
+}
+$years = array_keys($years);
+$locations = array_unique($locations);
+$series_data = [];
+foreach ($years as $year) {
+    $year_data = ['name' => (string)$year, 'data' => []];
+    foreach ($locations as $location) {
+        $year_data['data'][] = isset($data[$location][$year]) ? $data[$location][$year] : 0;
+    }
+    $series_data[] = $year_data;
+}
+$stmt->close();
+
+// Line Chart Data
+$stmt = $conn->prepare("
+    SELECT 
+        DATE_FORMAT(availability_start, '%Y-%m') AS month, 
+        COUNT(*) AS car_count 
+    FROM cars 
+    GROUP BY month
+    ORDER BY month ASC
+");
+$stmt->execute();
+$result = $stmt->get_result();
+$months = [];
+$car_counts = [];
+while ($row = $result->fetch_assoc()) {
+    $months[] = $row['month'];
+    $car_counts[] = $row['car_count'];
+}
+$formatted_months = array_map(function($month) {
+    $date = DateTime::createFromFormat('Y-m', $month);
+    return $date->format('F Y');
+}, $months);
+$stmt->close();
+
+// Donut Chart Data
+$stmt = $conn->prepare("SELECT location, COUNT(*) AS car_count FROM cars GROUP BY location");
+$stmt->execute();
+$result = $stmt->get_result();
+$donut_locations = [];
+$donut_counts = [];
+while ($row = $result->fetch_assoc()) {
+    $donut_locations[] = $row['location'];
+    $donut_counts[] = $row['car_count'];
+}
+$conn->close();
+?>
 
 <!-- Chart.js: Pie Chart (Car Models) -->
 <script>
@@ -112,9 +194,9 @@ include "view-header.php";
     var carDonutChart = new Chart(ctxDonut, {
         type: 'doughnut',
         data: {
-            labels: <?php echo json_encode($locations); ?>,
+            labels: <?php echo json_encode($donut_locations); ?>,
             datasets: [{
-                data: <?php echo json_encode($counts); ?>,
+                data: <?php echo json_encode($donut_counts); ?>,
                 backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6'],
                 borderWidth: 1
             }]
