@@ -20,7 +20,7 @@
 
         /* Navbar styles */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.8); /* Slightly darker transparent black */
+            background-color: rgba(245, 245, 245, 0.9); /* Light gray with slight transparency */
             padding: 1.5rem 2rem; /* Padding for spacing */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
         }
