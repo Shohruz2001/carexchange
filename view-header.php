@@ -13,6 +13,8 @@
             background-position: center;
             background-attachment: fixed;
             color: white; /* Adjust text color for visibility on the background */
+            margin: 0; /* Remove default body margin */
+            padding: 0; /* Remove default body padding */
             transition: background-image 1s ease-in-out; /* Smooth transition between backgrounds */
         }
 
