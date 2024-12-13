@@ -18,7 +18,9 @@
 
         /* Navbar styles */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.6); /* Transparent black for navbar */
+            background-color: rgba(0, 0, 0, 0.8); /* Slightly darker transparent black for better visibility */
+            padding: 1rem 2rem; /* Add padding for better spacing */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
         }
 
         .navbar-nav {
@@ -27,24 +29,46 @@
         }
 
         .nav-item {
-            margin-right: 15px; /* Add spacing between links */
+            margin-right: 25px; /* Add more spacing between links */
         }
 
         .navbar a {
             color: white !important; /* White text for the navbar links */
             text-decoration: none !important; /* Remove underline */
             font-weight: bold; /* Make text bold */
-            font-size: 18px; /* Increase font size */
-            transition: color 0.3s ease; /* Smooth transition for hover effect */
+            font-size: 20px; /* Increase font size */
+            padding: 10px 15px; /* Add padding for better click area */
+            border-radius: 5px; /* Rounded corners for buttons */
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
         }
 
         .navbar a:hover {
-            color: #FFD700 !important; /* Gold color on hover */
-            text-shadow: 0 0 5px #FFD700; /* Add a glowing effect on hover */
+            color: black !important; /* Black text on hover */
+            background-color: #FFD700 !important; /* Gold background on hover */
+            text-shadow: 0 0 10px #FFD700; /* Glow effect */
         }
 
+        .navbar-brand {
+            font-size: 24px; /* Larger brand text */
+            color: #FFD700 !important; /* Gold color for brand name */
+            font-weight: bold;
+        }
+
+        /* Ensure content is properly spaced and aligned */
         .container {
-            max-width: 90%; /* To prevent the content from being too wide */
+            max-width: 90%; /* Prevent the content from being too wide */
+        }
+
+        /* Responsive navbar adjustments */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column !important; /* Stack items vertically on smaller screens */
+            }
+
+            .nav-item {
+                margin-right: 0; /* Reset spacing */
+                margin-bottom: 10px; /* Add bottom margin */
+            }
         }
     </style>
 </head>
@@ -52,6 +76,7 @@
     <div class="container mt-4">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
+                <a class="navbar-brand" href="/">Car Exchange</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -77,7 +102,7 @@
             </div>
         </nav>
     </div>
-    
+
     <!-- JavaScript to change background image -->
     <script>
         let currentBackground = 0;
