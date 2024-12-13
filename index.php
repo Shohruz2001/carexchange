@@ -5,20 +5,28 @@ include "view-header.php";
 
 <div class="container mt-5">
     <!-- Homepage Title -->
-    <h1 class="text-center display-4 text-warning mb-4">Welcome to the Car Exchange Platform</h1>
-    <p class="text-center lead text-light">
+    <h1 class="text-center display-2 text-warning fw-bold mb-5" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);">
+        Welcome to the Car Exchange Platform
+    </h1>
+    <p class="text-center lead text-light fs-4" style="max-width: 900px; margin: 0 auto; line-height: 2; font-weight: 500;">
         Discover a smarter way to explore new cities and share your car! With our platform, you can earn points by sharing your car and find available vehicles for your next trip.
     </p>
 
     <!-- Advertisement Section -->
-    <div class="bg-dark p-4 rounded mt-5">
-        <h2 class="text-center text-light mb-3">Why Choose Us?</h2>
-        <p class="text-center text-white-50 fs-5">
+    <div class="bg-dark p-5 rounded mt-5" style="box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);">
+        <h2 class="text-center text-light fw-bold mb-4" style="font-size: 3.5rem; text-shadow: 2px 2px 5px rgba(255, 215, 0, 0.8);">
+            Why Choose Us?
+        </h2>
+        <p class="text-center text-white fs-4" style="max-width: 850px; margin: 0 auto; line-height: 2.2;">
             Are you tired of working all week and want to visit a new city for the weekend? Don't have your car with you and don't want to pay high car rental fees? 
-            <span class="text-warning">Register your car on our website</span>, earn points, and check out available cars for your next trip. Travel smarter, save more, and explore better with the Care Exchange Platform!
+            <span class="text-warning fw-bold">Register your car on our website</span>, earn points, and check out available cars for your next trip. Travel smarter, save more, and explore better with the Car Exchange Platform!
         </p>
     </div>
+
+    <!-- Add Space at the Bottom -->
+    <div class="mt-5" style="height: 80px;"></div>
 </div>
+
 
     <!-- Row for Charts -->
     <div class="row mt-5">
