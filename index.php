@@ -265,19 +265,31 @@ $conn->close();
                 backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6']
             }]
         },
-        options: {
-            plugins: {
-                legend: { position: 'top', color: '#FFD700' },
-                title: {
-                    display: true,
-                    text: 'Car Distribution by Location', color: '#FFD700',
+       options: {
+        plugins: {
+            legend: { 
+                position: 'top',
+                labels: {
+                    color: '#FFD700', // Highlight legend text with golden color
                     font: {
-                        size: 24, 
-                        weight: 'bold' 
+                        size: 14, // Increase font size for better visibility
+                        weight: 'bold' // Make text bold
                     },
+                    boxWidth: 20, // Adjust the size of the color box
+                    padding: 10 // Add spacing between legend items
+                }
+            },
+            title: {
+                display: true,
+                text: 'Car Distribution by Location',
+                color: '#FFD700', // Highlight title with golden color
+                font: {
+                    size: 24, // Increase font size for emphasis
+                    weight: 'bold' // Make the title bold
                 }
             }
         }
+    }
     });
 </script>
 
