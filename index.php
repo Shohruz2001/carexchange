@@ -15,7 +15,7 @@ include "view-header.php";
         <h2 class="text-center text-light mb-3">Why Choose Us?</h2>
         <p class="text-center text-white-50 fs-5">
             Are you tired of working all week and want to visit a new city for the weekend? Don't have your car with you and don't want to pay high car rental fees? 
-            <span class="text-warning">Register your car on our website</span>, earn points, and check out available cars for your next trip. Travel smarter, save more, and explore better with the Care Exchange Platform!
+            <span class="text-warning">Register your car on our website</span>, earn points, and check out available cars for your next trip. Travel smarter, save more, and explore better with the Car Exchange Platform!
         </p>
     </div>
 
