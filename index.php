@@ -5,17 +5,17 @@ include "view-header.php";
 
 <div class="container mt-5">
     <!-- Homepage Title -->
-    <h1 class="text-center display-4 text-warning">Welcome to the Care Exchange Platform</h1>
-    <p class="text-center mt-3 lead text-light">
+    <h1 class="text-center display-4 text-warning mb-4">Welcome to the Care Exchange Platform</h1>
+    <p class="text-center lead text-light">
         Discover a smarter way to explore new cities and share your car! With our platform, you can earn points by sharing your car and find available vehicles for your next trip.
     </p>
 
     <!-- Advertisement Section -->
     <div class="bg-dark p-4 rounded mt-5">
-        <h2 class="text-center text-light">Why Choose Us?</h2>
-        <p class="text-center text-white-50">
+        <h2 class="text-center text-light mb-3">Why Choose Us?</h2>
+        <p class="text-center text-white-50 fs-5">
             Are you tired of working all week and want to visit a new city for the weekend? Don't have your car with you and don't want to pay high car rental fees? 
-            Register your car on our website, earn points, and check out available cars for your next trip. Travel smarter, save more, and explore better with Care Exchange Platform!
+            <span class="text-warning">Register your car on our website</span>, earn points, and check out available cars for your next trip. Travel smarter, save more, and explore better with the Care Exchange Platform!
         </p>
     </div>
 
@@ -25,14 +25,14 @@ include "view-header.php";
         <div class="col-md-6 mb-4">
             <h3 class="text-center text-light">Car Models Distribution</h3>
             <p class="text-center text-light">A breakdown of car models in our system.</p>
-            <canvas id="carPieChart" style="max-height: 350px;"></canvas>
+            <canvas id="carPieChart" style="max-height: 400px;"></canvas>
         </div>
 
         <!-- Column Chart: Car Count By Location and Year -->
         <div class="col-md-6 mb-4">
             <h3 class="text-center text-light">Car Count by Location and Year</h3>
-            <p class="text-center text-light">Compare car counts across locations and years.</p>
-            <div id="carColumnChart" style="height: 350px;"></div>
+            <p class="text-center text-light">Compare car counts across various locations and years.</p>
+            <div id="carColumnChart" style="height: 400px;"></div>
         </div>
     </div>
 
@@ -40,15 +40,15 @@ include "view-header.php";
         <!-- Line Chart: Car Availability -->
         <div class="col-md-6 mb-4">
             <h3 class="text-center text-light">Car Availability Over Time</h3>
-            <p class="text-center text-light">Track car availability trends over months.</p>
-            <canvas id="availabilityLineChart" style="max-height: 350px;"></canvas>
+            <p class="text-center text-light">Track monthly trends in car availability.</p>
+            <canvas id="availabilityLineChart" style="max-height: 400px;"></canvas>
         </div>
 
         <!-- Donut Chart: Distribution of Cars by Location -->
         <div class="col-md-6 mb-4">
             <h3 class="text-center text-light">Car Distribution by Location</h3>
-            <p class="text-center text-light">Explore the distribution of cars across locations.</p>
-            <canvas id="carDonutChart" style="max-height: 350px;"></canvas>
+            <p class="text-center text-light">Explore the distribution of cars across different locations.</p>
+            <canvas id="carDonutChart" style="max-height: 400px;"></canvas>
         </div>
     </div>
 </div>
@@ -152,7 +152,11 @@ $conn->close();
             }]
         },
         options: {
-            plugins: { legend: { position: 'top' } }
+            plugins: { legend: { position: 'top' } },
+            title: {
+                display: true,
+                text: 'Car Models Distribution'
+            }
         }
     });
 </script>
@@ -161,9 +165,11 @@ $conn->close();
 <script>
     Highcharts.chart('carColumnChart', {
         chart: { type: 'column' },
-        xAxis: { categories: <?php echo json_encode($locations); ?> },
+        title: { text: 'Car Count by Location and Year' },
+        xAxis: { categories: <?php echo json_encode($locations); ?>, title: { text: 'Locations' } },
         yAxis: { title: { text: 'Number of Cars' } },
-        series: <?php echo json_encode($series_data); ?>
+        series: <?php echo json_encode($series_data); ?>,
+        plotOptions: { column: { stacking: 'normal' } }
     });
 </script>
 
@@ -182,7 +188,18 @@ $conn->close();
                 fill: true
             }]
         },
-        options: { scales: { y: { beginAtZero: true } } }
+        options: { 
+            scales: { 
+                x: { title: { display: true, text: 'Months' } },
+                y: { title: { display: true, text: 'Number of Cars' } }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Car Availability Over Time'
+                }
+            }
+        }
     });
 </script>
 
@@ -197,6 +214,15 @@ $conn->close();
                 data: <?php echo json_encode($donut_counts); ?>,
                 backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6']
             }]
+        },
+        options: {
+            plugins: {
+                legend: { position: 'top' },
+                title: {
+                    display: true,
+                    text: 'Car Distribution by Location'
+                }
+            }
         }
     });
 </script>
