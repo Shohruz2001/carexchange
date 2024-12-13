@@ -21,6 +21,15 @@
             background-color: rgba(0, 0, 0, 0.6); /* Transparent black for navbar */
         }
 
+        .navbar-nav {
+            display: flex !important; /* Force horizontal layout */
+            flex-direction: row !important; /* Align items in a row */
+        }
+
+        .nav-item {
+            margin-right: 15px; /* Add spacing between links */
+        }
+
         .navbar a {
             color: white !important; /* White text for the navbar links */
         }
@@ -28,7 +37,7 @@
         .navbar a:hover {
             color: #FFD700 !important; /* Gold color on hover */
         }
-        
+
         .container {
             max-width: 90%; /* To prevent the content from being too wide */
         }
@@ -89,5 +98,6 @@
             currentBackground = (currentBackground + 1) % backgrounds.length;
         }, 5000); // Switch every 5 seconds
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwvvtgBNo3bZJLYd80VXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmn1MuBnhbgnk" crossorigin="anonymous"></script>
 </body>
 </html>
