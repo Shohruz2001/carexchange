@@ -81,37 +81,37 @@ function getCarReservations($car_id) {
 <a href="add-car.php" class="btn btn-success mb-3">Add New Car</a>
 
 <!-- Display the cars in the table -->
-<table class="table table-bordered w-100" style="table-layout: fixed; border-spacing: 0 15px; border-collapse: separate;">
+<table class="table table-bordered" style="margin: 0 auto; width: 90%; table-layout: fixed; border-spacing: 0 10px; border-collapse: separate;">
     <thead>
-        <tr style="font-size: 1.5rem; font-weight: bold;"> <!-- Larger column names -->
-            <th style="padding: 15px;">Make</th>
-            <th style="padding: 15px;">Model</th>
-            <th style="padding: 15px;">Year</th>
-            <th style="padding: 15px;">License Plate</th>
-            <th style="padding: 15px;">Location</th>
-            <th style="padding: 15px;">Availability Start</th>
-            <th style="padding: 15px;">Availability End</th>
-            <th style="padding: 15px;">Reservations</th>
-            <th style="padding: 15px;">Actions</th>
+        <tr style="font-size: 1.25rem; font-weight: bold;"> <!-- Moderate column name size -->
+            <th style="padding: 10px;">Make</th>
+            <th style="padding: 10px;">Model</th>
+            <th style="padding: 10px;">Year</th>
+            <th style="padding: 10px;">License Plate</th>
+            <th style="padding: 10px;">Location</th>
+            <th style="padding: 10px;">Availability Start</th>
+            <th style="padding: 10px;">Availability End</th>
+            <th style="padding: 10px;">Reservations</th>
+            <th style="padding: 10px;">Actions</th>
         </tr>
     </thead>
     <tbody>
     <?php while ($car = $cars->fetch_assoc()) { ?>
         <tr>
-            <td style="padding: 15px;"><?php echo $car['make']; ?></td>
-            <td style="padding: 15px;"><?php echo $car['model']; ?></td>
-            <td style="padding: 15px;"><?php echo $car['year']; ?></td>
-            <td style="padding: 15px;"><?php echo $car['license_plate']; ?></td>
-            <td style="padding: 15px;"><?php echo $car['location']; ?></td>
-            <td style="padding: 15px;"><?php echo $car['availability_start']; ?></td>
-            <td style="padding: 15px;"><?php echo $car['availability_end']; ?></td>
+            <td style="padding: 10px;"><?php echo $car['make']; ?></td>
+            <td style="padding: 10px;"><?php echo $car['model']; ?></td>
+            <td style="padding: 10px;"><?php echo $car['year']; ?></td>
+            <td style="padding: 10px;"><?php echo $car['license_plate']; ?></td>
+            <td style="padding: 10px;"><?php echo $car['location']; ?></td>
+            <td style="padding: 10px;"><?php echo $car['availability_start']; ?></td>
+            <td style="padding: 10px;"><?php echo $car['availability_end']; ?></td>
             <td>
-                <table class="table table-sm">
+                <table class="table table-sm" style="margin: 0;">
                     <thead>
                         <tr>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Status</th>
+                            <th style="padding: 5px;">Start Date</th>
+                            <th style="padding: 5px;">End Date</th>
+                            <th style="padding: 5px;">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,31 +121,31 @@ function getCarReservations($car_id) {
                         while ($reservation = $reservations->fetch_assoc()) {
                     ?>
                         <tr>
-                            <td><?php echo $reservation['start_date']; ?></td>
-                            <td><?php echo $reservation['end_date']; ?></td>
-                            <td><?php echo $reservation['status']; ?></td>
+                            <td style="padding: 5px;"><?php echo $reservation['start_date']; ?></td>
+                            <td style="padding: 5px;"><?php echo $reservation['end_date']; ?></td>
+                            <td style="padding: 5px;"><?php echo $reservation['status']; ?></td>
                         </tr>
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='3'>No reservations</td></tr>";
+                        echo "<tr><td colspan='3' style='text-align: center; padding: 5px;'>No reservations</td></tr>";
                     }
                     ?>
                     </tbody>
                 </table>
             </td>
-            <td style="padding: 15px;">
+            <td style="padding: 10px;">
                 <a href="edit-car.php?id=<?php echo $car['car_id']; ?>" class="btn btn-primary">Edit</a>
-                
                 <form action="delete-car.php" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this car along with all associated reservations?');">
-                       <input type="hidden" name="car_id" value="<?php echo $car['car_id']; ?>">
-                       <button type="submit" class="btn btn-danger">Delete</button>
+                    <input type="hidden" name="car_id" value="<?php echo $car['car_id']; ?>">
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
         </tr>
     <?php } ?>
     </tbody>
 </table>
+
 
 <?php
 include "view-footer.php";
