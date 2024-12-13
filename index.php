@@ -252,6 +252,10 @@ $conn->close();
                 display: true,
                 text: 'Car Availability Over Time', 
                 color: '#FFD700' 
+                font: {
+                        size: 24, 
+                        weight: 'bold' 
+                    },
             }
         }
     }
