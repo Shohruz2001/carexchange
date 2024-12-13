@@ -23,15 +23,15 @@ include "view-header.php";
     <div class="row mt-5">
         <!-- Pie Chart: Car Models -->
         <div class="col-md-6 mb-4">
-            <h3 class="text-center text-light">Car Models Distribution</h3>
-            <p class="text-center text-light">A breakdown of car models in our system.</p>
+            <h3 class="text-center text-warning">Car Models Distribution</h3>
+            <p class="text-center text-warning">A breakdown of car models in our system.</p>
             <canvas id="carPieChart" style="max-height: 400px;"></canvas>
         </div>
 
         <!-- Column Chart: Car Count By Location and Year -->
         <div class="col-md-6 mb-4">
-            <h3 class="text-center text-light">Car Count by Location and Year</h3>
-            <p class="text-center text-light">Compare car counts across various locations and years.</p>
+            <h3 class="text-center text-warning">Car Count by Location and Year</h3>
+            <p class="text-center text-warning">Compare car counts across various locations and years.</p>
             <div id="carColumnChart" style="height: 400px;"></div>
         </div>
     </div>
@@ -39,15 +39,15 @@ include "view-header.php";
     <div class="row">
         <!-- Line Chart: Car Availability -->
         <div class="col-md-6 mb-4">
-            <h3 class="text-center text-light">Car Availability Over Time</h3>
-            <p class="text-center text-light">Track monthly trends in car availability.</p>
+            <h3 class="text-center text-warning">Car Availability Over Time</h3>
+            <p class="text-center text-warning">Track monthly trends in car availability.</p>
             <canvas id="availabilityLineChart" style="max-height: 400px;"></canvas>
         </div>
 
         <!-- Donut Chart: Distribution of Cars by Location -->
         <div class="col-md-6 mb-4">
-            <h3 class="text-center text-light">Car Distribution by Location</h3>
-            <p class="text-center text-light">Explore the distribution of cars across different locations.</p>
+            <h3 class="text-center text-warning">Car Distribution by Location</h3>
+            <p class="text-center text-warning">Explore the distribution of cars across different locations.</p>
             <canvas id="carDonutChart" style="max-height: 400px;"></canvas>
         </div>
     </div>
@@ -57,38 +57,103 @@ include "view-header.php";
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
-<!-- Updated JavaScript for Charts -->
+<!-- PHP: Fetch Data for Charts -->
+<?php
+require_once('util-db.php');
+
+// Fetch Pie Chart Data
+$conn = get_db_connection();
+$stmt = $conn->prepare("SELECT model, COUNT(*) AS model_count FROM cars GROUP BY model");
+$stmt->execute();
+$result = $stmt->get_result();
+$models = [];
+$counts = [];
+while ($row = $result->fetch_assoc()) {
+    $models[] = $row['model'];
+    $counts[] = $row['model_count'];
+}
+$stmt->close();
+
+// Fetch Column Chart Data
+$stmt = $conn->prepare("
+    SELECT location, year, COUNT(*) AS car_count 
+    FROM cars 
+    GROUP BY location, year
+    ORDER BY location, year
+");
+$stmt->execute();
+$cars = $stmt->get_result();
+$locations = [];
+$years = [];
+$data = [];
+while ($row = $cars->fetch_assoc()) {
+    $locations[] = $row['location'];
+    $years[$row['year']] = true;
+    $data[$row['location']][$row['year']] = $row['car_count'];
+}
+$years = array_keys($years);
+$locations = array_unique($locations);
+$series_data = [];
+foreach ($years as $year) {
+    $year_data = ['name' => (string)$year, 'data' => []];
+    foreach ($locations as $location) {
+        $year_data['data'][] = isset($data[$location][$year]) ? $data[$location][$year] : 0;
+    }
+    $series_data[] = $year_data;
+}
+$stmt->close();
+
+// Fetch Line Chart Data
+$stmt = $conn->prepare("
+    SELECT 
+        DATE_FORMAT(availability_start, '%Y-%m') AS month, 
+        COUNT(*) AS car_count 
+    FROM cars 
+    GROUP BY month
+    ORDER BY month ASC
+");
+$stmt->execute();
+$result = $stmt->get_result();
+$months = [];
+$car_counts = [];
+while ($row = $result->fetch_assoc()) {
+    $months[] = $row['month'];
+    $car_counts[] = $row['car_count'];
+}
+$formatted_months = array_map(function($month) {
+    $date = DateTime::createFromFormat('Y-m', $month);
+    return $date->format('F Y');
+}, $months);
+$stmt->close();
+
+// Fetch Donut Chart Data
+$stmt = $conn->prepare("SELECT location, COUNT(*) AS car_count FROM cars GROUP BY location");
+$stmt->execute();
+$result = $stmt->get_result();
+$donut_locations = [];
+$donut_counts = [];
+while ($row = $result->fetch_assoc()) {
+    $donut_locations[] = $row['location'];
+    $donut_counts[] = $row['car_count'];
+}
+$conn->close();
+?>
+
 <script>
     // Pie Chart
-    var ctxPie = document.getElementById('carPieChart').getContext('2d');
-    new Chart(ctxPie, {
+    new Chart(document.getElementById('carPieChart').getContext('2d'), {
         type: 'pie',
         data: {
             labels: <?php echo json_encode($models); ?>,
             datasets: [{
                 data: <?php echo json_encode($counts); ?>,
-                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC300', '#DAF7A6', '#581845']
+                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC300']
             }]
         },
         options: {
             plugins: {
-                title: {
-                    display: true,
-                    text: 'Car Models Distribution',
-                    color: '#FFFFFF',
-                    font: {
-                        size: 16,
-                        family: 'Arial'
-                    }
-                },
-                legend: {
-                    labels: {
-                        color: '#FFFFFF',
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
+                title: { display: true, text: 'Car Models Distribution', color: '#FFD700' },
+                legend: { labels: { color: '#FFD700' } }
             }
         }
     });
@@ -96,61 +161,45 @@ include "view-header.php";
     // Column Chart
     Highcharts.chart('carColumnChart', {
         chart: { type: 'column', backgroundColor: 'transparent' },
-        title: { text: 'Car Count by Location and Year', style: { color: '#FFFFFF', fontSize: '16px' } },
+        title: { text: 'Car Count by Location and Year', style: { color: '#FFD700' } },
         xAxis: { 
-            categories: <?php echo json_encode(array_values($locations)); ?>, 
-            title: { text: 'Locations', style: { color: '#FFFFFF' } },
-            labels: { style: { color: '#FFFFFF' } }
+            categories: <?php echo json_encode($locations); ?>,
+            labels: { style: { color: '#FFD700' } },
+            title: { text: 'Locations', style: { color: '#FFD700' } }
         },
-        yAxis: { 
-            title: { text: 'Number of Cars', style: { color: '#FFFFFF' } },
-            labels: { style: { color: '#FFFFFF' } }
+        yAxis: {
+            labels: { style: { color: '#FFD700' } },
+            title: { text: 'Number of Cars', style: { color: '#FFD700' } }
         },
-        series: <?php echo json_encode($series_data); ?>,
-        legend: {
-            itemStyle: { color: '#FFFFFF' }
-        }
+        series: <?php echo json_encode($series_data); ?>
     });
 
     // Line Chart
-    var ctxLine = document.getElementById('availabilityLineChart').getContext('2d');
-    new Chart(ctxLine, {
+    new Chart(document.getElementById('availabilityLineChart').getContext('2d'), {
         type: 'line',
         data: {
             labels: <?php echo json_encode($formatted_months); ?>,
             datasets: [{
                 label: 'Car Availability Over Time',
                 data: <?php echo json_encode($car_counts); ?>,
-                borderColor: '#3498db',
-                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderColor: '#FFD700',
+                backgroundColor: 'rgba(255, 215, 0, 0.2)',
                 fill: true
             }]
         },
-        options: { 
+        options: {
             plugins: {
-                title: {
-                    display: true,
-                    text: 'Car Availability Over Time',
-                    color: '#FFFFFF',
-                    font: { size: 16 }
-                }
+                title: { display: true, text: 'Car Availability Over Time', color: '#FFD700' }
             },
-            scales: { 
-                x: { 
-                    title: { display: true, text: 'Months', color: '#FFFFFF' },
-                    ticks: { color: '#FFFFFF' }
-                },
-                y: { 
-                    title: { display: true, text: 'Number of Cars', color: '#FFFFFF' },
-                    ticks: { color: '#FFFFFF' }
-                }
+            scales: {
+                x: { title: { display: true, text: 'Months', color: '#FFD700' } },
+                y: { title: { display: true, text: 'Number of Cars', color: '#FFD700' } }
             }
         }
     });
 
     // Donut Chart
-    var ctxDonut = document.getElementById('carDonutChart').getContext('2d');
-    new Chart(ctxDonut, {
+    new Chart(document.getElementById('carDonutChart').getContext('2d'), {
         type: 'doughnut',
         data: {
             labels: <?php echo json_encode($donut_locations); ?>,
@@ -161,22 +210,8 @@ include "view-header.php";
         },
         options: {
             plugins: {
-                title: {
-                    display: true,
-                    text: 'Car Distribution by Location',
-                    color: '#FFFFFF',
-                    font: {
-                        size: 16
-                    }
-                },
-                legend: {
-                    labels: {
-                        color: '#FFFFFF',
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
+                title: { display: true, text: 'Car Distribution by Location', color: '#FFD700' },
+                legend: { labels: { color: '#FFD700' } }
             }
         }
     });
