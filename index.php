@@ -203,8 +203,8 @@ $conn->close();
         },
         options: { 
             scales: { 
-                x: { title: { display: true, text: 'Months,color: '#FFD700' } },
-                y: { title: { display: true, text: 'Number of Cars',color: '#FFD700' } }
+                x: { title: { display: true, text: 'Months' } },
+                y: { title: { display: true, text: 'Number of Cars' } }
             },
             plugins: {
                 title: {
@@ -230,10 +230,10 @@ $conn->close();
         },
         options: {
             plugins: {
-                legend: { position: 'top', color: '#FFD700' },
+                legend: { position: 'top' },
                 title: {
                     display: true,
-                    text: 'Car Distribution by Location',color: '#FFD700'
+                    text: 'Car Distribution by Location'
                 }
             }
         }
