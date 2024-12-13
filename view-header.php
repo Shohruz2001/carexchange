@@ -18,30 +18,28 @@
 
         /* Navbar styles */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.85); /* Slightly darker for better visibility */
-            padding: 1.5rem 2rem; /* Adjusted padding for better spacing */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Enhanced shadow effect */
-        }
-
-        .navbar-brand {
-            font-size: 28px; /* Larger brand text */
-            color: #FFD700 !important; /* Gold for brand */
-            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.8); /* Slightly darker transparent black */
+            padding: 1.5rem 2rem; /* Padding for spacing */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
         }
 
         .navbar-nav {
             display: flex;
             align-items: center;
             justify-content: space-around;
-            font-size: 20px; /* Increased font size for navigation links */
+            font-size: 20px; /* Larger font size */
+        }
+
+        .nav-item {
+            margin-right: 20px; /* Adjusted spacing for closer navigation items */
         }
 
         .nav-link {
             color: white !important;
             text-decoration: none !important; /* Remove underline */
             font-weight: bold;
-            padding: 12px 20px; /* Larger padding for better clickability */
-            border-radius: 5px; /* Smooth button-like corners */
+            padding: 10px 15px; /* Better clickable area */
+            border-radius: 5px; /* Smooth corners */
             transition: all 0.3s ease; /* Smooth hover transition */
         }
 
@@ -54,12 +52,12 @@
         /* Responsive navbar adjustments */
         @media (max-width: 768px) {
             .navbar-nav {
-                flex-direction: column;
-                align-items: flex-start;
+                flex-direction: column; /* Stack items vertically on smaller screens */
+                align-items: flex-start; /* Align items to the start */
             }
 
-            .nav-link {
-                font-size: 18px; /* Slightly smaller for smaller screens */
+            .nav-item {
+                margin-right: 0; /* Reset spacing for vertical alignment */
                 margin-bottom: 10px; /* Add spacing for stacked items */
             }
         }
@@ -68,7 +66,6 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Car Exchange</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -102,7 +99,7 @@
             'Images/mercedez1.jpg'
         ];
 
-        setInterval(function() {
+        setInterval(function () {
             document.body.style.backgroundImage = `url('${backgrounds[currentBackground]}')`;
             currentBackground = (currentBackground + 1) % backgrounds.length;
         }, 5000); // Switch every 5 seconds
