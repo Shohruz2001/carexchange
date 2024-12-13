@@ -81,32 +81,30 @@ function getCarReservations($car_id) {
 <a href="add-car.php" class="btn btn-success mb-3">Add New Car</a>
 
 <!-- Display the cars in the table -->
-<table class="table table-bordered" style="table-layout: fixed;">
+<table class="table table-bordered w-100" style="table-layout: fixed; border-spacing: 0 15px; border-collapse: separate;">
     <thead>
-        <tr>
-            <!-- Remove ID and Owner ID columns -->
-            <th>Make</th>
-            <th>Model</th>
-            <th>Year</th>
-            <th>License Plate</th>
-            <th>Location</th>
-            <th>Availability Start</th>
-            <th>Availability End</th>
-            <th>Reservations</th>
-            <th>Actions</th>
+        <tr style="font-size: 1.5rem; font-weight: bold;"> <!-- Larger column names -->
+            <th style="padding: 15px;">Make</th>
+            <th style="padding: 15px;">Model</th>
+            <th style="padding: 15px;">Year</th>
+            <th style="padding: 15px;">License Plate</th>
+            <th style="padding: 15px;">Location</th>
+            <th style="padding: 15px;">Availability Start</th>
+            <th style="padding: 15px;">Availability End</th>
+            <th style="padding: 15px;">Reservations</th>
+            <th style="padding: 15px;">Actions</th>
         </tr>
     </thead>
     <tbody>
     <?php while ($car = $cars->fetch_assoc()) { ?>
         <tr>
-            <!-- Remove ID and Owner ID data -->
-            <td><?php echo $car['make']; ?></td>
-            <td><?php echo $car['model']; ?></td>
-            <td><?php echo $car['year']; ?></td>
-            <td><?php echo $car['license_plate']; ?></td>
-            <td><?php echo $car['location']; ?></td>
-            <td><?php echo $car['availability_start']; ?></td>
-            <td><?php echo $car['availability_end']; ?></td>
+            <td style="padding: 15px;"><?php echo $car['make']; ?></td>
+            <td style="padding: 15px;"><?php echo $car['model']; ?></td>
+            <td style="padding: 15px;"><?php echo $car['year']; ?></td>
+            <td style="padding: 15px;"><?php echo $car['license_plate']; ?></td>
+            <td style="padding: 15px;"><?php echo $car['location']; ?></td>
+            <td style="padding: 15px;"><?php echo $car['availability_start']; ?></td>
+            <td style="padding: 15px;"><?php echo $car['availability_end']; ?></td>
             <td>
                 <table class="table table-sm">
                     <thead>
@@ -136,16 +134,13 @@ function getCarReservations($car_id) {
                     </tbody>
                 </table>
             </td>
-            <td>
-                <!-- Action buttons for Edit and Delete -->
+            <td style="padding: 15px;">
                 <a href="edit-car.php?id=<?php echo $car['car_id']; ?>" class="btn btn-primary">Edit</a>
                 
                 <form action="delete-car.php" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this car along with all associated reservations?');">
                        <input type="hidden" name="car_id" value="<?php echo $car['car_id']; ?>">
                        <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-
-
             </td>
         </tr>
     <?php } ?>
