@@ -166,12 +166,25 @@ $conn->close();
     Highcharts.chart('carColumnChart', {
         chart: { type: 'column' },
         title: { text: 'Car Count by Location and Year' },
-        xAxis: { categories: <?php echo json_encode($locations); ?>, title: { text: 'Locations' } },
-        yAxis: { title: { text: 'Number of Cars' } },
-        series: <?php echo json_encode($series_data); ?>,
-        plotOptions: { column: { stacking: 'normal' } }
+        xAxis: { 
+            categories: <?php echo json_encode(array_values($locations)); ?>, // Use actual location names
+            title: { text: 'Locations' }
+        },
+        yAxis: { 
+            title: { text: 'Number of Cars' } 
+        },
+        series: <?php echo json_encode($series_data); ?>, // Data grouped by years
+        plotOptions: { 
+            column: { stacking: 'normal' } 
+        },
+        legend: { 
+            layout: 'horizontal', 
+            align: 'center', 
+            verticalAlign: 'bottom' 
+        }
     });
 </script>
+
 
 <!-- Chart.js: Line Chart -->
 <script>
