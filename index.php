@@ -165,13 +165,13 @@ $conn->close();
 <script>
     Highcharts.chart('carColumnChart', {
         chart: { type: 'column' },
-        title: { text: 'Car Count by Location and Year' },
+        title: { text: 'Car Count by Location and Year', color: '#FFD700' },
         xAxis: { 
             categories: <?php echo json_encode(array_values($locations)); ?>, // Use actual location names
-            title: { text: 'Locations' }
+            title: { text: 'Locations', color: '#FFD700' }
         },
         yAxis: { 
-            title: { text: 'Number of Cars' } 
+            title: { text: 'Number of Cars', color: '#FFD700' } 
         },
         series: <?php echo json_encode($series_data); ?>, // Data grouped by years
         plotOptions: { 
@@ -194,7 +194,7 @@ $conn->close();
         data: {
             labels: <?php echo json_encode($formatted_months); ?>,
             datasets: [{
-                label: 'Car Availability Over Time',
+                label: 'Car Availability Over Time', 
                 data: <?php echo json_encode($car_counts); ?>,
                 borderColor: '#3498db',
                 backgroundColor: 'rgba(52, 152, 219, 0.2)',
@@ -203,8 +203,8 @@ $conn->close();
         },
         options: { 
             scales: { 
-                x: { title: { display: true, text: 'Months' } },
-                y: { title: { display: true, text: 'Number of Cars' } }
+                x: { title: { display: true, text: 'Months', color: '#FFD700' } },
+                y: { title: { display: true, text: 'Number of Cars', color: '#FFD700' } }
             },
             plugins: {
                 title: {
@@ -230,10 +230,10 @@ $conn->close();
         },
         options: {
             plugins: {
-                legend: { position: 'top' },
+                legend: { position: 'top', color: '#FFD700' },
                 title: {
                     display: true,
-                    text: 'Car Distribution by Location'
+                    text: 'Car Distribution by Location',color: '#FFD700'
                 }
             }
         }
