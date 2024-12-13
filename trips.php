@@ -26,7 +26,7 @@ $trips = selectTrips();
 
 <table class="table table-bordered" style="table-layout: fixed;">
     <thead>
-        <tr>
+        <tr style="font-size: 1.5rem; font-weight: bold;"> <!-- Added font size and weight -->
             <!-- Remove Trip ID and User ID columns -->
             <th>Destination</th>
             <th>Departure City</th>
@@ -60,5 +60,6 @@ $trips = selectTrips();
     <?php } ?>
     </tbody>
 </table>
+
 
 <?php include "view-footer.php"; ?>
