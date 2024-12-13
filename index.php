@@ -180,7 +180,8 @@ $conn->close();
         legend: { 
             layout: 'horizontal', 
             align: 'center', 
-            verticalAlign: 'bottom' 
+            verticalAlign: 'bottom',
+            color: '#FFD700'
         }
     });
 </script>
@@ -194,7 +195,7 @@ $conn->close();
         data: {
             labels: <?php echo json_encode($formatted_months); ?>,
             datasets: [{
-                label: 'Car Availability Over Time', 
+                label: 'Car Availability Over Time', color: '#FFD700',
                 data: <?php echo json_encode($car_counts); ?>,
                 borderColor: '#3498db',
                 backgroundColor: 'rgba(52, 152, 219, 0.2)',
@@ -209,7 +210,7 @@ $conn->close();
             plugins: {
                 title: {
                     display: true,
-                    text: 'Car Availability Over Time'
+                    text: 'Car Availability Over Time', color: '#FFD700'
                 }
             }
         }
@@ -233,7 +234,7 @@ $conn->close();
                 legend: { position: 'top', color: '#FFD700' },
                 title: {
                     display: true,
-                    text: 'Car Distribution by Location',color: '#FFD700'
+                    text: 'Car Distribution by Location', color: '#FFD700'
                 }
             }
         }
