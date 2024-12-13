@@ -32,10 +32,15 @@
 
         .navbar a {
             color: white !important; /* White text for the navbar links */
+            text-decoration: none !important; /* Remove underline */
+            font-weight: bold; /* Make text bold */
+            font-size: 18px; /* Increase font size */
+            transition: color 0.3s ease; /* Smooth transition for hover effect */
         }
 
         .navbar a:hover {
             color: #FFD700 !important; /* Gold color on hover */
+            text-shadow: 0 0 5px #FFD700; /* Add a glowing effect on hover */
         }
 
         .container {
