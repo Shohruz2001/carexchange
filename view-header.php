@@ -12,7 +12,7 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            color: white; /* Adjust text color for visibility on the background */
+            color: white; 
             margin: 0; /* Remove default body margin */
             padding: 0; /* Remove default body padding */
             transition: background-image 1s ease-in-out; /* Smooth transition between backgrounds */
@@ -20,7 +20,7 @@
 
         /* Navbar styles */
         .navbar {
-            background-color: rgba(245, 245, 245, 0.9); /* Light gray with slight transparency */
+            background-color: rgba(0, 0, 0, 0.8); /* Slightly darker transparent black */
             padding: 1.5rem 2rem; /* Padding for spacing */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
         }
