@@ -5,7 +5,7 @@ include "view-header.php";
 
 <div class="container mt-5">
     <!-- Homepage Title -->
-    <h1 class="text-center display-4 text-warning mb-4">Welcome to the Care Exchange Platform</h1>
+    <h1 class="text-center display-4 text-warning mb-4">Welcome to the Car Exchange Platform</h1>
     <p class="text-center lead text-light">
         Discover a smarter way to explore new cities and share your car! With our platform, you can earn points by sharing your car and find available vehicles for your next trip.
     </p>
